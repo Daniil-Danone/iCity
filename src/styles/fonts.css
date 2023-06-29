@@ -1,0 +1,7 @@
+@font-face {
+    src: url('../fonts/Avenir-Medium.ttf') format('truetype'),
+        url('../fonts/Avenir-Medium.woff') format('woff'),
+        url('../fonts/Avenir-Medium.woff') format('woff2');
+    font-family: 'Avenir';
+    font-weight: 400;
+  }
