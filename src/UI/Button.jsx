@@ -1,11 +1,11 @@
-import React from 'react'
-import styled from 'styled-components'
+import React from 'react';
+import styled from 'styled-components';
 
-const AuthButton = styled.button`
+const StyledButton = styled.button`
     display: block;
     width: 100%;
     color: black;
-    font-size: 20px;
+    font-size: 22px;
     font-family: Avimir, sans-serif;
     background: none;
     cursor: pointer;
@@ -20,10 +20,11 @@ const AuthButton = styled.button`
     }
 `
 
+
 const Button = ({ children, onClick }) => {
   return (
-    <AuthButton onClick={onClick}>{children}</AuthButton>
+    <StyledButton onClick={onClick}>{children}</StyledButton>
   )
 }
 
-export default Button
+export default Button;

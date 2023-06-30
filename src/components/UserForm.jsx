@@ -2,7 +2,9 @@ import React, { useState } from 'react'
 import Popup from '../UI/Popup';
 import styled from 'styled-components'
 import Button from '../UI/Button';
+import CloseButton from '../UI/CloseButton';
 import axios from 'axios';
+import Input from '../UI/Input';
 
 
 const Title = styled.div`
@@ -10,55 +12,9 @@ const Title = styled.div`
     text-align: center;
     font-family: Avimir, sans-serif;
 `
-
-const CloseButton = styled.div`
-    position: absolute;
-    top: 0;
-    right: 0;
-    background: none;
-    outline: none;
-    border: none;
-    cursor: pointer;
-
-    &:before, &:after {
-        content: ""; 
-        position: absolute; 
-        width: 20px;
-        height: 2px;
-        top: 5px;
-        right: 0;
-        background: orange;
-    }
-
-    &:before {
-        transform: rotate(45deg);
-    }
-    &:after {
-        transform: rotate(-45deg);
-    }
-`
-
 const PopupContainer = styled.div`
     position: relative;
 `
-
-const Input = styled.input`
-    width: calc(100% - 22px);
-    margin: 10px auto;
-    line-height: 50px;
-    padding-left: 20px;
-    background: rgba(0, 0, 0, 0.05);
-    border: none;
-    outline: none;
-    border-radius: 5px;
-    font-family: Avimir, sans-serif;
-    transition: 0.2s ease-in-out;
-
-    &:focus {
-        background: rgba(255, 165, 0, 0.1);
-    }
-`
-
 const Status = styled.div`
     width: 100%;
     margin-top: 15px;
@@ -67,7 +23,8 @@ const Status = styled.div`
     color: gray;
 `
 
-const RegistrationForm = ({ active, setActive, popupTitle}) => {
+
+const UserForm = ({ active, setActive, popupTitle }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [msg, setMsg] = useState('');
@@ -86,11 +43,11 @@ const RegistrationForm = ({ active, setActive, popupTitle}) => {
         : regUser(data)
 
         event.preventDefault()
-    }
+    };
 
     function closeWindow(event) {
         setActive(false)
-    }
+    };
 
     function authUser (data) {
         setMsg('Производится вход в аккаунт...');
@@ -102,7 +59,7 @@ const RegistrationForm = ({ active, setActive, popupTitle}) => {
                 console.log(response.data);
                 localStorage.setItem('userToken', response.data.auth_token);
             })
-    }
+    };
 
     function regUser(data) {
         setMsg('Создание аккаунта...');
@@ -114,7 +71,7 @@ const RegistrationForm = ({ active, setActive, popupTitle}) => {
                 localStorage.setItem('userData', JSON.stringify(response.data));
                 localStorage.getItem('userData');
             })
-    }
+    };
 
     return (
         <Popup active={active} setActive={setActive}>
@@ -135,4 +92,4 @@ const RegistrationForm = ({ active, setActive, popupTitle}) => {
     )
 }
 
-export default RegistrationForm
+export default UserForm;

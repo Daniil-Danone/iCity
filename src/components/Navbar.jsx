@@ -1,29 +1,35 @@
-import React, { useState } from 'react'
-import styled from 'styled-components'
-import avatar from '../images/avatar.jpg'
-import Button from '../UI/Button'
-import RegistrationForm from './RegistrationForm'
+import React, { useState } from 'react';
+import styled from 'styled-components';
+import avatar from '../images/avatar.jpg';
+import Button from '../UI/Button';
+import UserForm from './UserForm';
+import Link from '../UI/Link';
 
-const Menu = styled.div`
+
+const StyledNavbar = styled.header`
+  height: 60px;
+  background-color: #f6f8fa;
+`
+const MenuList = styled.ul`
   display: flex;
-  position: relative;
-  top: 0;
-  align-items: center;
-  padding: 10px 20px;
-  font-family: Avenir, sans-serif;
+  margin: 0;
+  padding: 10px 20px 10px 60px;
+  line-height: 40px;
+  list-style: none;
+
+  font-size: 22px;
   
-  border-bottom: 1px solid orange;
+  justify-content: space-between;
+  align-items: center;
+`
+const MenuItem = styled.li`
 `
 const Logo = styled.div`
-  display: block;
   font-size: 30px;
 `
 const Profile = styled.div`
   display: flex;
-  align-items: center;
   gap: 10px;
-  margin-left: auto;
-  font-size: 20px;
 `
 const Avatar = styled.img`
   display: block;
@@ -31,98 +37,56 @@ const Avatar = styled.img`
   border-radius: 50%;
   border: 1px solid orange;
 `
-const MenuList = styled.ul`
-  display: block;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  position: relative;
-  left: 50%;
-  float: left;
-`
-const MenuItem = styled.li`
-  position: relative;
-  left: -50%;
-  float: left;
-  margin: 0 30px;
-  height: 40px
-  display: inline-block;
-  padding: 10px;
 
-  font-size: 20px;
-  &::after {
-    content: '';
-    position: absolute;
-    background: black;
-    left: 0;
-    bottom: 5px;
-    width: 100%;
-    height: 2px;
-  }
-`
-const Link = styled.a`
-  color: black;
-  text-decoration: none;
-
-  transition: 0.2s ease-in-out;
-
-  &:link {
-    text-decoration: none;
-  }
-  &:visited {
-    text-decoration: none;
-  }
-  &:hover {
-    color: orange;
-    text-decoration: none;
-  }
-`
 
 const Navbar = () => {
   const [active, setActive] = useState(false);
   const [popupTitle, setPopupTitle] = useState('');
-  const [user, setUser] = useState({})
+  const [user, setUser] = useState({});
 
-  function authPop() {
+  function authPopup() {
     setPopupTitle('Аутентификация');
     setActive(true);
-  }
+  };
 
-  function registrationPop() {
+  function registrationPopup() {
     setPopupTitle('Регистрация');
     setActive(true);
-  }
+  };
 
   function logout() {
     setUser({})
-  }
+  };
 
   return (
     <>
-      <RegistrationForm active={active} setActive={setActive} popupTitle={popupTitle}/>
-      <Menu>
-        <Logo>
-        <Link href='#'>iCity</Link>
-        </Logo>
+      <UserForm active={active} setActive={setActive} popupTitle={popupTitle}/>
+      <StyledNavbar>
         <MenuList>
-          <MenuItem><Link href='#'>Карта</Link></MenuItem>
-          <MenuItem><Link href='#'>Мероприятия</Link></MenuItem>
-          <MenuItem><Link href='#'>Сборы</Link></MenuItem>
+          <MenuItem>
+            <Logo>
+              <Link href='/'>iCity</Link>
+            </Logo>
+          </MenuItem>
+          <MenuItem><Link href='map'>Карта</Link></MenuItem>
+          <MenuItem><Link href='events'>Мероприятия</Link></MenuItem>
+          <MenuItem>
+            <Profile>
+              {user.name
+              ? <Avatar src={avatar}></Avatar>
+              : <Link onClick={authPopup}>Войти</Link>
+              }
+              {user.name
+                ? <Link onClick={logout}>{user.name}</Link>
+                : <Button onClick={registrationPopup}>Зарегистрироваться</Button>
+              }
+            </Profile>
+          </MenuItem>
         </MenuList>
-        <Profile>
-          {user.name
-          ? <Avatar src={avatar}></Avatar>
-          : <Button onClick={authPop}>Войти</Button>
-          }
-          {user.name
-            ? <Link onClick={logout}>{user.name}</Link>
-            : <Button onClick={registrationPop}>Зарегистрироваться</Button>
-          }
-        </Profile>
-      </Menu>
+      </StyledNavbar>
     </>
     
   )
 }
 
-export default Navbar
+export default Navbar;

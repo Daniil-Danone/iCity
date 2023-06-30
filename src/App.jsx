@@ -1,13 +1,18 @@
 import React from 'react'
-import Navbar from './components/Navbar'
-import InteractiveMap from './components/Map'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import MapPage from './pages/MapPage'
+import EventsPage from './pages/EventsPage'
+import StartPage from './pages/StartPage'
 
 const App = () => {
   return (
-    <div>
-      <Navbar/>
-      <InteractiveMap/>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path='' element={<StartPage/>} />
+        <Route path='map' element={<MapPage/>} />
+        <Route path='events' element={<EventsPage/>} />
+      </Routes>
+    </BrowserRouter>
   )
 }
 

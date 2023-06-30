@@ -1,5 +1,5 @@
-import React from 'react'
-import styled from 'styled-components'
+import React from 'react';
+import styled from 'styled-components';
 
 const Card = styled.div`
     display: block;
@@ -8,17 +8,13 @@ const Card = styled.div`
     border-radius: 10px;
     padding: 10px;
 `
-
 const Title = styled.h3`
-
 `
-
 const Description = styled.p`
-
 `
-
 const Geodata = styled.small`
 `
+
 
 const MapCard = ({ mark }) => {
   return (
