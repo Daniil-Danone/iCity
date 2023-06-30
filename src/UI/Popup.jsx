@@ -7,6 +7,7 @@ const PopupWindow = styled.div`
     background-color: white;
     height: 225px;
     width: 400px;
+    z-index: 1000;
 
     transition: 0.3s ease-in-out;
 `
@@ -21,6 +22,7 @@ const PopupWindowActive = styled.div`
     position: fixed;
     align-items: center;
     justify-content: center;
+    z-index: 1001;
 `
 
 const Popup = ({ active, setActive, children }) => {

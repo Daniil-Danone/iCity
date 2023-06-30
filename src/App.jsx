@@ -1,12 +1,12 @@
 import React from 'react'
 import Navbar from './components/Navbar'
-import Map from './components/Map'
+import InteractiveMap from './components/Map'
 
 const App = () => {
   return (
     <div>
       <Navbar/>
-      <Map/>
+      <InteractiveMap/>
     </div>
   )
 }
