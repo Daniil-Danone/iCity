@@ -53,6 +53,7 @@ const Navbar = () => {
   function registrationPopup() {
     setPopupTitle('Регистрация');
     setActive(true);
+    
   }; 
 
   function logout() {

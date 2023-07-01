@@ -7,6 +7,7 @@ const Card = styled.div`
     border: 1px solid orange;
     border-radius: 10px;
     padding: 10px;
+    margin-right: 5px;
 `
 const Title = styled.h3`
 `
@@ -19,7 +20,7 @@ const Geodata = styled.small`
 const MapCard = ({ mark }) => {
   return (
     <Card>
-        <Title>{mark.title + ' (ID: ' + mark.id + ')'}</Title>
+        <Title>{mark.title}</Title>
         <Description>{mark.description}</Description>
         <Geodata>{mark.xpos} {mark.ypos}</Geodata>
     </Card>

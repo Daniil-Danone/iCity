@@ -3,8 +3,12 @@ import styled from 'styled-components';
 import { YMaps, Map, Placemark } from '@pbe/react-yandex-maps';
 import axios from 'axios';
 import Container from '../UI/Container';
+import Button from '../UI/Button';
+import MarkForm from './MarkForm';
 
 import MapCard from '../components/MapCard';
+
+
 
 const MapGrid = styled.div`
   padding: 100px 0;
@@ -13,41 +17,121 @@ const MapGrid = styled.div`
   gap: 40px;
 `
 const MapWindow = styled.div`
+  position: relative;
   display: block;
   max-width: 800px;
   max-height: 600px;
   border: 1px solid black;
+`
+const SideBar = styled.div`
+  display: grid;
+  grid-template-сolumns: auto;
+  height: 600px;
+  gap: 20px;
 `
 const Categories = styled.div`
   display: grid;
   grid-auto-rows: auto;
   gap: 10px;
   font-family: Monserrat, sans-serif;
+  overflow-y: scroll;
+  overflox-x: hidden;
+  
+  &::-webkit-scrollbar {
+    width: 6px;
+    border-radius: 4px;
+    background-color: #dedede;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: orange;
+    border-radius: 9em;
+}
+`
+const Info = styled.div`
+  display: block;
+  width: auto;
+  left: 50%;
+  top: 10px;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid black;
+  background-color: white;
+  position: absolute;
+  text-align: center;
+  z-index: 1;
+  transform: translate(-50%);
 `
 
 const InteractiveMap = () => {
-  const [marks, setMarks] = useState([
-    {'title': 'Дом Эмиля', 'description': 'Дом ге(ни)я', 'xpos': 54.950474, 'ypos': '73.3897'}
-  ]);
+  const user = JSON.parse(localStorage.getItem("user"));
 
-  const [currentMark, setCurrentMark] = useState('');
+  const [marks, setMarks] = useState([]);
+  const [markStatus, setMarkStatus] = useState('');
+  const [editCurrentMark, setEditCurrentMark] = useState(false);
+  const [isDone, setIsDone] = useState(false);
 
   const url = 'http://127.0.0.1:8000/api/v1/mark';
 
-
-  useEffect(() => {
+  function getMarks () {
     axios
       .get(url)
       .then(response => {
         setMarks(response.data)
       })
-    }, []
+  }
+
+  function addMark () {
+    setMarkStatus('кликните по месту, где хотите добавить объект');
+  }
+
+  function editMark (mark) {
+    setEditCurrentMark(mark);
+  }
+
+  function onClickMap (e) {
+    if (markStatus == 'кликните по месту, где хотите добавить объект') {
+      setMarkStatus('а теперь отредактируйте новый маркер →');
+      const mark = {
+        title: 'Новая метка',
+        description: 'Описание',
+        xpos: e.get("coords")[0],
+        ypos: e.get("coords")[1],
+        author: user.id
+      };
+  
+      axios
+        .post(url, mark)
+        .then(response => {
+          if (response.status === 200) {
+            console.log(response.data)
+            getMarks();
+            editMark(response.data);
+          }
+        });
+    };
+  }
+
+  useEffect(() => {
+      getMarks();
+      setEditCurrentMark(false);
+      if (isDone) {
+        setIsDone(false);
+        setTimeout(() => {
+          setMarkStatus(false);
+        }, 1000);
+      }
+    }, [isDone]
   );
 
   return (
     <Container>
       <MapGrid>
         <MapWindow>
+          {markStatus
+            ? <Info>{markStatus}</Info>
+            : <></>
+          }
           <YMaps
           query={{
             ns: "use-load-option",
@@ -56,25 +140,28 @@ const InteractiveMap = () => {
           >
             <div>
               <Map
-              width='100%'
+              width="100%"
               defaultState={{ 
                 center: [54.973272, 73.381908], 
                 zoom: 13,
                 controls: ["zoomControl"]
               }}
+              onClick={onClickMap}
               height={600}
                 modules={["control.ZoomControl"]}
               >
                 {marks.map(mark => 
                   <Placemark key={mark.id}
                     defaultGeometry={[mark.xpos, mark.ypos]} 
+                    
                     options={{
+                      preset: 'islands#circleIcon',
                     }
                     }
-                    properties={{
-                      balloonContentHeader: mark.title + ' (ID: ' + mark.id + ')',
+                    properties={{ 
+                      balloonContentHeader: mark.title,
                       balloonContentBody: mark.description,
-                      balloonContentFooter: mark.xpos + ' ' + mark.ypos
+                      balloonContentFooter: 'x: ' + mark.xpos + ' y: ' + mark.ypos
                     }
                   }
                   />
@@ -83,11 +170,18 @@ const InteractiveMap = () => {
             </div>
           </YMaps>
         </MapWindow>
-        <Categories>
-          {marks.map(mark => 
-            <MapCard mark={mark}/>
-          )}
-        </Categories>
+        <SideBar>
+          {editCurrentMark
+          ? <></>
+          :<Button onClick={addMark}>Добавить метку</Button>
+          }
+          <Categories>
+          {editCurrentMark
+          ? <MarkForm mark={editCurrentMark} setEditCurrentMark={setEditCurrentMark} setIsDone={setIsDone} setMarkStatus={setMarkStatus}/>
+          : marks.map(mark => <MapCard mark={mark}/>)
+          }
+          </Categories>
+        </SideBar>
       </MapGrid>
     </Container>
   )

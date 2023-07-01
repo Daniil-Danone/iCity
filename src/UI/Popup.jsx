@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 
 const StyledPopup = styled.div`
@@ -7,8 +7,6 @@ const StyledPopup = styled.div`
     background-color: white;
     width: 400px;
     z-index: 1000;
-
-    transition: 0.3s ease-in-out;
 `
 const StyledPopupActive = styled.div`
     display: flex;
