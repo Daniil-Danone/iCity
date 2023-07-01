@@ -1,7 +1,16 @@
 import React, { useState } from 'react'
 import Input from '../UI/Input'
 import Button from '../UI/Button'
+import DeleteButton from '../UI/DeleteButton';
 import axios from 'axios';
+import { styled } from 'styled-components';
+
+
+const StyledMarkForm = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+`
 
 
 const MarkForm = ( { mark, setIsDone, setMarkStatus } ) => {
@@ -40,14 +49,14 @@ const MarkForm = ( { mark, setIsDone, setMarkStatus } ) => {
             })
     }
   return (
-    <>
+    <StyledMarkForm>
         <form onSubmit={submitForm} spellCheck="false">
             <Input placeholder='Заголовок' value={title} onChange={event => setTitle(event.target.value)} required />
             <Input placeholder='Описание' value={description} onChange={event => setDescription(event.target.value)}/>
             <Button>Изменить</Button>
         </form>
-        <Button onClick={deleteMark}>Удалить маркер</Button>
-    </>
+        <DeleteButton onClick={deleteMark}>Удалить маркер</DeleteButton>
+    </StyledMarkForm>
     
   )
 }

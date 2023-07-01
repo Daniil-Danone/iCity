@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const StyledButton = styled.button`
+const StyledCommonButton = styled.button`
     display: block;
     width: 100%;
     color: black;
@@ -21,10 +21,12 @@ const StyledButton = styled.button`
 `
 
 
+
 const Button = ({ children, onClick }) => {
   return (
-    <StyledButton onClick={onClick}>{children}</StyledButton>
+    <StyledCommonButton onClick={onClick}>{children}</StyledCommonButton>
   )
 }
+
 
 export default Button;

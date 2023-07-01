@@ -25,7 +25,6 @@ const MapWindow = styled.div`
 `
 const SideBar = styled.div`
   display: grid;
-  grid-template-сolumns: auto;
   height: 600px;
   gap: 20px;
 `
