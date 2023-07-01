@@ -7,6 +7,7 @@ import Button from '../UI/Button';
 import MarkForm from './MarkForm';
 
 import MapCard from '../components/MapCard';
+import MapCardList from './MapCardList';
 
 
 
@@ -28,25 +29,7 @@ const SideBar = styled.div`
   height: 600px;
   gap: 20px;
 `
-const Categories = styled.div`
-  display: grid;
-  grid-auto-rows: auto;
-  gap: 10px;
-  font-family: Monserrat, sans-serif;
-  overflow-y: scroll;
-  overflox-x: hidden;
-  
-  &::-webkit-scrollbar {
-    width: 6px;
-    border-radius: 4px;
-    background-color: #dedede;
-  }
 
-  &::-webkit-scrollbar-thumb {
-    background-color: orange;
-    border-radius: 9em;
-}
-`
 const Info = styled.div`
   display: block;
   width: auto;
@@ -174,12 +157,10 @@ const InteractiveMap = () => {
           ? <></>
           :<Button onClick={addMark}>Добавить метку</Button>
           }
-          <Categories>
           {editCurrentMark
           ? <MarkForm mark={editCurrentMark} setEditCurrentMark={setEditCurrentMark} setIsDone={setIsDone} setMarkStatus={setMarkStatus}/>
-          : marks.map(mark => <MapCard mark={mark}/>)
+          : <MapCardList marks={marks}/>
           }
-          </Categories>
         </SideBar>
       </MapGrid>
     </Container>
