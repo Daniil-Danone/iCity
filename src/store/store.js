@@ -2,17 +2,17 @@ import {createStore} from "redux";
 
 
 const defaultState = {
-    email: '',
-    name: '',
+    user: {},
+    isLogin: false,
+    api: 'http://127.0.0.1:8000/'
 }
-
 
 const reducer = (state = defaultState, action) => {
     switch (action.type) {
-        case 'SET_EMAIL':
-            return {...state, email: action.payload}
-        case "SET_NAME":
-            return {...state, name: action.payload}
+        case 'SET_USER':
+            return {...state, user: action.payload}
+        case "SET_ISLOGIN":
+            return {...state, isLogin: action.payload}
         default:
             return state
     }

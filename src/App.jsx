@@ -4,6 +4,7 @@ import MapPage from './pages/MapPage'
 import EventsPage from './pages/EventsPage'
 import StartPage from './pages/StartPage'
 
+
 const App = () => {
   return (
     <Routes>

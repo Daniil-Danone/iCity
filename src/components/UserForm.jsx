@@ -5,6 +5,7 @@ import Button from '../UI/Button';
 import CloseButton from '../UI/CloseButton';
 import axios from 'axios';
 import Input from '../UI/Input';
+import { useDispatch, useSelector } from 'react-redux';
 
 
 const Title = styled.div`
@@ -27,49 +28,85 @@ const Status = styled.div`
 const UserForm = ({ active, setActive, popupTitle }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [name, setName] = useState('');
+    const [surname, setSurname] = useState('');
     const [msg, setMsg] = useState('');
 
+    const dispatch = useDispatch();
+    const API = useSelector(state => state.api);
+
     function submitForm (event) {
-        const data = {
+        const authData = {
             email: email,
             password: password
         };
 
-        setEmail('');
-        setPassword('');
+        const regData = {
+            email: email,
+            password: password,
+            name: name,
+            surname: surname
+        };
 
         (popupTitle) === 'Аутентификация' 
-        ? authUser(data)
-        : regUser(data)
+        ? authUser(authData)
+        : regUser(authData, regData)
 
-        event.preventDefault()
+        event.preventDefault();
     };
 
-    function closeWindow(event) {
+    function closeWindow() {
         setActive(false)
     };
 
-    function authUser (data) {
-        setMsg('Производится вход в аккаунт...');
-        const url = 'http://127.0.0.1:8000/auth/token/login/'
+    function getUser(token) {
+        const url = API + "/api/v1/auth/users/me"
 
         axios
-            .post(url, data)
+            .get(url, {
+                headers: {"Authorization": token}
+            })
             .then(response => {
-                console.log(response.data);
-                localStorage.setItem('userToken', response.data.auth_token);
+                if (response.status === 200) {
+                    setMsg('Аккаунт успешно создан');
+                    setTimeout(() => {
+                        localStorage.setItem("isLogin", true);
+                        localStorage.setItem("user", JSON.stringify(response.data));
+                        closeWindow();
+                    }, 2000);
+                } else {
+                    setMsg('Произошла ошибка...');
+                }
             })
     };
 
-    function regUser(data) {
+    function authUser (authData) {
+        const url = 'http://127.0.0.1:8000/auth/token/login/'
+
+        axios
+            .post(url, authData)
+            .then(response => {                
+                if (response.status === 200) {
+                    localStorage.setItem('token', 'Token ' + response.data.auth_token);
+                    getUser(localStorage.getItem("token"));
+                } else {
+                    setMsg('Произошла ошибка...');
+                }
+            })
+    };
+
+    function regUser(authData, regData) {
         setMsg('Создание аккаунта...');
         const url = 'http://127.0.0.1:8000/api/v1/auth/users/'
+
         axios
-            .post(url, data)
-            .then(response => {
-                console.log(response.data);
-                localStorage.setItem('userData', JSON.stringify(response.data));
-                localStorage.getItem('userData');
+            .post(url, regData)
+            .then(response => {        
+                if (response.status === 201) {
+                    authUser(authData);
+                } else {
+                    setMsg('Произошла ошибка...');
+                }
             })
     };
 
@@ -78,9 +115,17 @@ const UserForm = ({ active, setActive, popupTitle }) => {
             <PopupContainer>
                 <Title>{popupTitle}</Title>
                 <CloseButton onClick={closeWindow}></CloseButton>
-                <form onSubmit={submitForm}>
+                <form onSubmit={submitForm} spellCheck="false">
                     <Input placeholder='E-mail' value={email} onChange={event => setEmail(event.target.value)} required />
                     <Input placeholder='Пароль' value={password} onChange={event => setPassword(event.target.value)} required/>
+                    {(popupTitle) === 'Регистрация'
+                    ? <Input placeholder='Имя' value={name} onChange={event => setName(event.target.value)}/>
+                    : <></>
+                    }
+                    {(popupTitle) === 'Регистрация'
+                    ? <Input placeholder='Фамилия' value={surname} onChange={event => setSurname(event.target.value)}/>
+                    : <></>
+                    }
                     {(popupTitle) === 'Аутентификация'
                     ? <Button>Войти</Button>
                     : <Button>Зарегистрироваться</Button>
