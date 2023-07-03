@@ -1,40 +1,41 @@
 import React, { useState, useEffect } from 'react'
-import Link from '../UI/Link'
 import Button from '../UI/Button'
 import styled from 'styled-components'
 import avatar from '../images/avatar.jpg'
 import UserForm from './UserForm'
+import ProfilePopup from './ProfilePopup'
 
 const Profile = styled.div`
     position: absolute;
-    top: 20px;
+    top: 0px;
     right: 20px;
     display: flex;
     box-sizing: border-box;
     box-shadow: 1px 1px 3px 0;
     background: linear-gradient(to bottom right, pink, white);
-    border-radius: 20px;
-    padding: 5px 15px 5px 10px;
+    border-radius: 0 0 10px 10px;
+    padding: 10px 15px 10px 10px;
     width: auto;
     gap: 10px;
     z-index: 2;
 `
 
-const Username = styled.a`
+const Username = styled.div`
     color: black;
     font-size: 26px;
-    line-height: 50px;;
+    line-height: 50px;
+    transition: 0.2s ease;
 
-    &:hover  {
+    &:hover {
         cursor: pointer;
         color: orange;
         text-decoration: none;
-      }
+    }
       
-      &:visited {
-        color: red;
+    &:visited {
+        color: black;
         text-decoration: none;
-      }
+    }
 `
 
 const Avatar = styled.img`
@@ -45,23 +46,28 @@ const Avatar = styled.img`
 
 
 const ProfileBlock = () => {
-    const [active, setActive] = useState(false);
+    const [isActive, setIsActive] = useState(false);
     const [popupTitle, setPopupTitle] = useState('');
+    const [isProfilePopupActive, setIsProfilePopupActive] = useState(false);
 
     const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));;
     const [isLogin, setIsLogin] = useState(localStorage.getItem("isLogin"));
+
+    function profilePopup () {
+        setIsProfilePopupActive(!isProfilePopupActive);
+    }
     
-    function authPopup() {
+    function authPopup () {
         setPopupTitle('Аутентификация');
-        setActive(true);
+        setIsActive(true);
     };
     
-    function registrationPopup() {
+    function registrationPopup () {
         setPopupTitle('Регистрация');
-        setActive(true);
+        setIsActive(true);
     }; 
     
-    function logout() {
+    function logout () {
         localStorage.removeItem("user");
         localStorage.removeItem("token");
         localStorage.removeItem("isLogin");
@@ -79,14 +85,15 @@ const ProfileBlock = () => {
 
     return (
         <>
-            <UserForm active={active} setActive={setActive} popupTitle={popupTitle}/>
+            <UserForm isActive={isActive} setIsActive={setIsActive} popupTitle={popupTitle}/>
+            <ProfilePopup isProfilePopupActive={isProfilePopupActive} setIsProfilePopupActive={setIsProfilePopupActive} logout={logout}/>
             <Profile>
                 {isLogin
                 ? <Avatar src={avatar}></Avatar>
-                : <Link onClick={authPopup}>Войти</Link>
+                : <Button onClick={authPopup}>Войти</Button>
                 }
                 {isLogin
-                ? <Username onClick={logout}>{user.name ? user.name : user.email}</Username>
+                ? <Username onClick={profilePopup}>{user.name ? user.name : user.email}</Username>
                 : <Button onClick={registrationPopup}>Зарегистрироваться</Button>
                 }
             </Profile>

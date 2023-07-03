@@ -4,8 +4,10 @@ import styled from 'styled-components';
 import Wrapper from '../UI/Wrapper';
 import MapBar from '../components/MapBar';
 import ProfileBlock from '../components/ProfileBlock';
+import ProfilePopup from '../components/ProfilePopup';
 import axios from 'axios';
 import { createGlobalStyle } from 'styled-components'
+import MenuBlock from '../components/MenuBlock';
 
 
 const GlobalStyle = createGlobalStyle`
@@ -20,7 +22,6 @@ const MapPageGrid = styled.div`
   height: 100%;
   width: 100%;
 `
-
 
 
 const MapPage = () => {
@@ -89,6 +90,7 @@ const MapPage = () => {
     <Wrapper>
       <GlobalStyle/>
       <MapPageGrid>
+        <MenuBlock/>
         <ProfileBlock/>
         <MapBar marks={marks} markStatus={markStatus} editCurrentMark={editCurrentMark} setEditCurrentMark={setEditCurrentMark} addMark={addMark} setIsDone={setIsDone} setMarkStatus={setMarkStatus}/>
         <InteractiveMap marks={marks} onClick={onClickMap}/>

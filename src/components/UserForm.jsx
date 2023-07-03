@@ -25,15 +25,13 @@ const Status = styled.div`
 `
 
 
-const UserForm = ({ active, setActive, popupTitle }) => {
+const UserForm = ({ isActive, setIsActive, popupTitle }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [name, setName] = useState('');
     const [surname, setSurname] = useState('');
     const [msg, setMsg] = useState('');
-    const [inputColor, setInputColor] = useState('');
 
-    const dispatch = useDispatch();
     const API = useSelector(state => state.api);
 
 
@@ -58,7 +56,7 @@ const UserForm = ({ active, setActive, popupTitle }) => {
     };
 
     function closeWindow() {
-        setActive(false)
+        setIsActive(false)
     };
 
     function getUser(token) {
@@ -113,7 +111,7 @@ const UserForm = ({ active, setActive, popupTitle }) => {
     };
 
     return (
-        <Popup active={active} setActive={setActive}>
+        <Popup isActive={isActive} setIsActive={setIsActive}>
             <PopupContainer>
                 <Title>{popupTitle}</Title>
                 <CloseButton onClick={closeWindow}></CloseButton>

@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const StyledCommonButton = styled.button`
+const StyledPositiveButton = styled.button`
     display: block;
     width: 100%;
     color: black;
@@ -9,22 +9,21 @@ const StyledCommonButton = styled.button`
     font-family: Avimir, sans-serif;
     background: none;
     cursor: pointer;
-    border: 1px solid #D58CAA;
+    border: 1px solid #51CE3D;
     border-radius: 5px;
     padding: 5px;
     transition: 0.2s ease-in-out;
 
     &:hover {
         color: white;
-        background: #D58CAA;
+        background: #51CE3D;
     }
 `
 
 
-
 const Button = ({ children, onClick }) => {
   return (
-    <StyledCommonButton onClick={onClick}>{children}</StyledCommonButton>
+    <StyledPositiveButton onClick={onClick}>{children}</StyledPositiveButton>
   )
 }
 

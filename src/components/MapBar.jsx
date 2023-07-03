@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import styled from 'styled-components'
-import Link from '../UI/Link'
 import MapBarAccordion from './MapBarAccordion'
 import Button from '../UI/Button'
 import MapCardList from './MapCardList'
@@ -11,19 +10,34 @@ const StyledMenuBar = styled.div`
     display: flex;
     flex-direction: column;
     width: 380px;
-    gap: 60px;
+    gap: 20px;
     padding: 20px;
     box-sizing: border-box;
+    box-shadow: 0 0 2px 0;
     
     background-color: #FEFAEC;
     z-index: 1;
 `
 
 const Logo = styled.div`
-    color: #ffffff;
+    color: #D58CAA;
+    font-size: 26px;
+    line-height: 50px;
     font-size: 50px;
     padding-bottom: 20px;
     border-bottom: 4px solid #D58CAA;
+    transition: 0.2s ease;
+
+    &:hover {
+        cursor: pointer;
+        color: orange;
+        text-decoration: none;
+    }
+
+    &:visited {
+        color: black;
+        text-decoration: none;
+    }
 `
 
 const AccordionContainer = styled.div`
@@ -61,22 +75,26 @@ const MapBar = ( { marks, markStatus, editCurrentMark, setEditCurrentMark, addMa
             {markStatus
             && <Info>{markStatus}</Info>
             }
-            <Logo>
-                <Link href='/'>iCity</Link>
-            </Logo>
+            <Logo href='/'>iCity</Logo>
             {editCurrentMark
-            ? <>Редактирование кнопки</>
-            :<Button onClick={addMark}>Добавить метку</Button>
+            ?   <h2>Создание метки</h2>
+            :   <Button onClick={addMark}>Добавить метку</Button>
             }
-            <AccordionContainer>
-                {accordionData.map((data) => (
-                <MapBarAccordion data={data} key={data.title}/>
-                ))}
-            </AccordionContainer>
             {editCurrentMark
-            ? <MarkForm mark={editCurrentMark} setEditCurrentMark={setEditCurrentMark} setIsDone={setIsDone} setMarkStatus={setMarkStatus}/>
-            : <MapCardList marks={marks}/>
+            ?   <MarkForm mark={editCurrentMark} setEditCurrentMark={setEditCurrentMark} setIsDone={setIsDone} setMarkStatus={setMarkStatus}/>
+            :   <MapCardList marks={marks}/>
             }
+            {editCurrentMark
+            ?   <></>
+            :   <AccordionContainer>
+                    {accordionData.map((data) => (
+                        <MapBarAccordion data={data} key={data.title}/>
+                        ))
+                    }
+                </AccordionContainer>
+            }
+            
+            
         </StyledMenuBar>
     )
 }

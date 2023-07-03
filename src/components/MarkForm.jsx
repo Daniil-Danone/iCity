@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Input from '../UI/Input'
 import Button from '../UI/Button'
-import DeleteButton from '../UI/DeleteButton';
+import NegativeButton from '../UI/NegativeButton';
 import axios from 'axios';
 import { styled } from 'styled-components';
 
@@ -30,6 +30,9 @@ const StyledMarkForm = styled.div`
     display: flex;
     flex-direction: column;
     gap: 30px;
+    padding: 10px;
+    border-radius: 10px;
+    border: 2px solid #D58CAA;
 `
 
 
@@ -106,7 +109,7 @@ const MarkForm = ( { mark, setIsDone, setMarkStatus } ) => {
             
             <Button>Сохранить</Button>
         </form>
-        <DeleteButton onClick={event => deleteMark(event)}>Удалить маркер</DeleteButton>
+        <NegativeButton onClick={event => deleteMark(event)}>Удалить маркер</NegativeButton>
     </StyledMarkForm>
     
   )

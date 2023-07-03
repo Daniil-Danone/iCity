@@ -22,10 +22,10 @@ const StyledPopupActive = styled.div`
 `
 
 
-const Popup = ({ active, setActive, children }) => {
-    if (active) {
+const Popup = ({ isActive, setIsActive, children }) => {
+    if (isActive) {
         return (
-            <StyledPopupActive onClick={() => setActive(false)}>
+            <StyledPopupActive onClick={() => setIsActive(false)}>
                 <StyledPopup onClick={(event) => event.stopPropagation()}>{children}</StyledPopup>
             </StyledPopupActive>
         )
