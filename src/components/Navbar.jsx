@@ -5,11 +5,11 @@ import Button from '../UI/Button';
 import UserForm from './UserForm';
 import Link from '../UI/Link';
 
-const StyledNavbar = styled.header`
+const StyledHeader = styled.header`
   height: 60px;
-  background-color: #f6f8fa;
+  background-color: #ffffff;
 `
-const MenuList = styled.ul`
+const HeaderList = styled.ul`
   display: flex;
   margin: 0;
   padding: 10px 20px 10px 60px;
@@ -21,7 +21,7 @@ const MenuList = styled.ul`
   justify-content: space-between;
   align-items: center;
 `
-const MenuItem = styled.li`
+const HeaderItem = styled.li`
 `
 const Logo = styled.div`
   font-size: 30px;
@@ -38,7 +38,7 @@ const Avatar = styled.img`
 `
 
 
-const Navbar = () => {
+const Header = () => {
   const [active, setActive] = useState(false);
   const [popupTitle, setPopupTitle] = useState('');
 
@@ -76,16 +76,16 @@ const Navbar = () => {
   return (
     <>
       <UserForm active={active} setActive={setActive} popupTitle={popupTitle}/>
-      <StyledNavbar>
-        <MenuList>
-          <MenuItem>
+      <StyledHeader>
+        <HeaderList>
+          <HeaderItem>
             <Logo>
               <Link href='/'>iCity</Link>
             </Logo>
-          </MenuItem>
-          <MenuItem><Link href='map'>Карта</Link></MenuItem>
-          <MenuItem><Link href='events'>Мероприятия</Link></MenuItem>
-          <MenuItem>
+          </HeaderItem>
+          <HeaderItem><Link href='map'>Карта</Link></HeaderItem>
+          <HeaderItem><Link href='events'>Мероприятия</Link></HeaderItem>
+          <HeaderItem>
             <Profile>
               {isLogin
               ? <Avatar src={avatar}></Avatar>
@@ -96,12 +96,12 @@ const Navbar = () => {
                 : <Button onClick={registrationPopup}>Зарегистрироваться</Button>
               }
             </Profile>
-          </MenuItem>
-        </MenuList>
-      </StyledNavbar>
+          </HeaderItem>
+        </HeaderList>
+      </StyledHeader>
     </>
     
   )
 }
 
-export default Navbar;
+export default Header;

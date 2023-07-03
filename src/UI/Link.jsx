@@ -2,14 +2,18 @@ import React from 'react';
 import styled from 'styled-components';
 
 const StyledLink = styled.a`
-  color: black;
+  color: white;
   text-decoration: none;
 
   transition: 0.2s ease-in-out;
 
-  &:hover {
+  &:hover  {
     cursor: pointer;
     color: orange;
+    text-decoration: none;
+  }
+  
+  &:visited {
     text-decoration: none;
   }
 `

@@ -9,14 +9,14 @@ const StyledCommonButton = styled.button`
     font-family: Avimir, sans-serif;
     background: none;
     cursor: pointer;
-    border: 1px solid orange;
+    border: 1px solid #D58CAA;
     border-radius: 5px;
     padding: 5px;
     transition: 0.2s ease-in-out;
 
     &:hover {
         color: white;
-        background: orange;
+        background: #D58CAA;
     }
 `
 

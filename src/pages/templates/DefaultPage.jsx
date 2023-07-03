@@ -8,9 +8,7 @@ const DefaultPage = ({ children }) => {
   return (
     <Wrapper>
         <Navbar/>
-        <Container>
-            {children}
-        </Container>
+          {children}
         <Footer/>
     </Wrapper>
   )

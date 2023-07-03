@@ -3,9 +3,8 @@ import styled from 'styled-components';
 
 const FooterBlock = styled.footer`
     text-align: center;
-    width: 100vw;
     height: 40px;
-    background-color: #d0d7de;
+    background-color: #ffffff;
     align-items: center;
 `
 

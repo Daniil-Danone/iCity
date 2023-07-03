@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Input from '../UI/Input'
 import Button from '../UI/Button'
 import DeleteButton from '../UI/DeleteButton';
@@ -21,7 +21,8 @@ const ChooseBox = styled.img`
     padding: 5px;
     margin: 5px 0 10px 0;
     border-radius: 10px;
-    border: 2px solid {props => props.color};
+    border: 3px solid ${(props) => 
+        props.isSelected === true ? '#d58caa' : '#e6e6e6'};
 `
 
 
@@ -36,69 +37,76 @@ const MarkForm = ( { mark, setIsDone, setMarkStatus } ) => {
     const user = JSON.parse(localStorage.getItem("user"));
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
-    const [type, setType] = useState();
+    const [type, setType] = useState('Не указано');
+
+    const [isSelected, setIsSelected] = useState({
+        'football': false,
+        'basketball': false,
+        'bike': false,
+        'gamepad': false
+    });
     
 
     const xpos = mark.xpos;
     const ypos = mark.ypos;
 
-    const defaultColor = '#0000000d';
-    const activeColor = '#0000000d'
-
     const url = 'http://127.0.0.1:8000/api/v1/mark/' + mark.id
 
     function changeState(event) {
-        const foo = document.querySelectorAll("img");
-        
-        for (var i = 0; i < foo.length; i++) {
-            foo[i].classList.remove("active");
-          }
-
-        event.currentTarget.classList.add('active');
-        console.log(event.currentTarget.id);
-        setType(event.currentTarget.id);
+        const type = event.currentTarget.id
+        setIsSelected({
+            'football': type === 'football' ? true : false,
+            'basketball': type === 'basketball' ? true : false,
+            'bike': type === 'bike' ? true : false,
+            'gamepad': type === 'gamepad' ? true : false
+        });
+        setType(type);
+        event.preventDefault(); 
     }
 
-    function submitForm () {
-        event.preventDefault()
-        const mark = {            title: title,
+    function submitForm (event) {
+        const mark = {
+            title: title,
             description: description,
             author: user.id,
             type: type,
             xpos: xpos,
             ypos: ypos
-        }
+        };
+
         axios
             .put(url, mark)
-            .then(response => {
+            .then(() => {
                 setMarkStatus('Маркер успешно добавлен');
                 setIsDone(true);
-            })
+            });
+        event.preventDefault();
     };
 
-    function deleteMark () {
+    function deleteMark (event) {
         axios
             .delete(url)
-            .then(response => {
+            .then(() => {
                 setMarkStatus('Маркер удалён');
                 setIsDone(true);
-            })
+            });
+        event.preventDefault();
     }
   return (
     <StyledMarkForm>
-        <form onSubmit={submitForm} spellCheck="false">
+        <form onSubmit={event => submitForm(event)} spellCheck="false">
             <Input placeholder={mark.title} value={title} onChange={event => setTitle(event.target.value)} required />
             <Input placeholder={mark.description} value={description} onChange={event => setDescription(event.target.value)}/>
             <Types>
-                <ChooseBox border={type} src={footballImg} onClick={event => changeState(event)} id='football'></ChooseBox>
-                <ChooseBox border={type} src={basketballImg} onClick={event => changeState(event)} id='basketball'></ChooseBox>
-                <ChooseBox border={type} src={bikeImg} onClick={event => changeState(event)} id='bike'></ChooseBox>
-                <ChooseBox border={type} src={gamepadImg} onClick={event => changeState(event)} id='gamepad'></ChooseBox>
+                <ChooseBox isSelected={isSelected.football} src={footballImg} onClick={event => changeState(event)} id='football'></ChooseBox>
+                <ChooseBox isSelected={isSelected.basketball} src={basketballImg} onClick={event => changeState(event)} id='basketball'></ChooseBox>
+                <ChooseBox isSelected={isSelected.bike} src={bikeImg} onClick={event => changeState(event)} id='bike'></ChooseBox>
+                <ChooseBox isSelected={isSelected.gamepad}src={gamepadImg} onClick={event => changeState(event)} id='gamepad'></ChooseBox>
             </Types>
             
-            <Button>Изменить</Button>
+            <Button>Сохранить</Button>
         </form>
-        <DeleteButton onClick={deleteMark}>Удалить маркер</DeleteButton>
+        <DeleteButton onClick={event => deleteMark(event)}>Удалить маркер</DeleteButton>
     </StyledMarkForm>
     
   )

@@ -17,7 +17,7 @@ const StyledMapCardList = styled.div`
   }
 
   &::-webkit-scrollbar-thumb {
-    background-color: orange;
+    background-color: #C17A96;
     border-radius: 9em;
 }
 `
@@ -25,7 +25,7 @@ const StyledMapCardList = styled.div`
 const MapCardList = ({ marks }) => {
   return (
     <StyledMapCardList>
-        {marks.map(mark => <MapCard mark={mark}/>)}
+        {marks.map(mark => <MapCard mark={mark} key={mark.id}/>)}
     </StyledMapCardList>
   )
 }
