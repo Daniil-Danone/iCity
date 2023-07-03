@@ -78,7 +78,7 @@ const MapBar = ( { marks, markStatus, editCurrentMark, setEditCurrentMark, addMa
             <Logo href='/'>iCity</Logo>
             {editCurrentMark
             ?   <h2>Создание метки</h2>
-            :   <Button onClick={addMark}>Добавить метку</Button>
+            :   isLogin && <Button onClick={addMark}>Добавить метку</Button>
             }
             {editCurrentMark
             ?   <MarkForm mark={editCurrentMark} setEditCurrentMark={setEditCurrentMark} setIsDone={setIsDone} setMarkStatus={setMarkStatus}/>

@@ -44,12 +44,7 @@ const MapPage = () => {
     };
 
     function addMark () {
-        if (isLogin) {
-          setMarkStatus('Кликните по месту, где хотите добавить объект');
-        } else {
-          setMarkStatus('Чтобы добавлять метки, нужно войти в аккаунт');
-          setIsDone(true);
-        }       
+      setMarkStatus('Кликните по месту, где хотите добавить объект');    
     };
 
     function editMark (mark) {
@@ -88,13 +83,8 @@ const MapPage = () => {
             setTimeout(() => {
             setMarkStatus(false);
             }, 1000);
-        };
-        setInterval(() => {
-          {isLogin != localStorage.getItem("isLogin")
-          && setIsLogin(localStorage.getItem("isLogin"))
-        }
-        }, 500);
-        }, [isDone, isLogin]
+          };
+        }, [isDone]
     );
   
   return (

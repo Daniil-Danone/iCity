@@ -73,6 +73,7 @@ const UserForm = ({ isActive, setIsActive, popupTitle }) => {
                         localStorage.setItem("isLogin", true);
                         localStorage.setItem("user", JSON.stringify(response.data));
                         closeWindow();
+                        location.reload();
                     }, 2000);
                 } else {
                     setMsg('Произошла ошибка...');
