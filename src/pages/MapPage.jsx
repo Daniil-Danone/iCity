@@ -94,7 +94,7 @@ const MapPage = () => {
           && setIsLogin(localStorage.getItem("isLogin"))
         }
         }, 500);
-        }, [isDone]
+        }, [isDone, isLogin]
     );
   
   return (
