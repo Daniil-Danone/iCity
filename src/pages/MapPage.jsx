@@ -25,8 +25,8 @@ const MapPageGrid = styled.div`
 
 
 const MapPage = () => {
-    const user = JSON.parse(localStorage.getItem("user"));
-    const isLogin = localStorage.getItem("isLogin");
+    const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
+    const [isLogin, setIsLogin] = useState(localStorage.getItem("isLogin"));
     
     const [marks, setMarks] = useState([]);
     const [markStatus, setMarkStatus] = useState('');
@@ -89,7 +89,12 @@ const MapPage = () => {
             setMarkStatus(false);
             }, 1000);
         };
-        }, [isDone, localStorage.getItem("isLogin")]
+        setInterval(() => {
+          {isLogin != localStorage.getItem("isLogin")
+          && setIsLogin(localStorage.getItem("isLogin"))
+        }
+        }, 500);
+        }, [isDone]
     );
   
   return (
