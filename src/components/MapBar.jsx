@@ -62,7 +62,7 @@ const Info = styled.div`
   transform: translate(-50%);
 `
 
-const MapBar = ( { marks, markStatus, editCurrentMark, setEditCurrentMark, addMark, setIsDone, setMarkStatus }) => {
+const MapBar = ( { marks, markStatus, editCurrentMark, setEditCurrentMark, addMark, setIsDone, setMarkStatus, isLogin }) => {
     const accordionData = [
         {'title': 'Футбол', 'content': ['Поля', 'Стадионы', 'Клубы', 'Прокат мячей']},
         {'title': 'Баскетбол', 'content': ['Поля', 'Стадионы', 'Клубы', 'Прокат мячей']},

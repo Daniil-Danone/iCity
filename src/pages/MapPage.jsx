@@ -26,6 +26,7 @@ const MapPageGrid = styled.div`
 
 const MapPage = () => {
     const user = JSON.parse(localStorage.getItem("user"));
+    const isLogin = localStorage.getItem("isLogin");
     
     const [marks, setMarks] = useState([]);
     const [markStatus, setMarkStatus] = useState('');
@@ -43,7 +44,12 @@ const MapPage = () => {
     };
 
     function addMark () {
-        setMarkStatus('Кликните по месту, где хотите добавить объект');
+        if (isLogin) {
+          setMarkStatus('Кликните по месту, где хотите добавить объект');
+        } else {
+          setMarkStatus('Чтобы добавлять метки, нужно войти в аккаунт');
+          setIsDone(true);
+        }       
     };
 
     function editMark (mark) {
@@ -83,7 +89,7 @@ const MapPage = () => {
             setMarkStatus(false);
             }, 1000);
         };
-        }, [isDone]
+        }, [isDone, localStorage.getItem("isLogin")]
     );
   
   return (
@@ -92,7 +98,7 @@ const MapPage = () => {
       <MapPageGrid>
         <MenuBlock/>
         <ProfileBlock/>
-        <MapBar marks={marks} markStatus={markStatus} editCurrentMark={editCurrentMark} setEditCurrentMark={setEditCurrentMark} addMark={addMark} setIsDone={setIsDone} setMarkStatus={setMarkStatus}/>
+        <MapBar isLogin={isLogin} marks={marks} markStatus={markStatus} editCurrentMark={editCurrentMark} setEditCurrentMark={setEditCurrentMark} addMark={addMark} setIsDone={setIsDone} setMarkStatus={setMarkStatus}/>
         <InteractiveMap marks={marks} onClick={onClickMap}/>
       </MapPageGrid>
     </Wrapper>
