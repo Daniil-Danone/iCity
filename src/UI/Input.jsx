@@ -19,9 +19,9 @@ const StyledInput = styled.input`
 `
 
 
-const Input = ({ children, placeholder, value, onChange }) => {
+const Input = ({ children, placeholder, value, onChange, style }) => {
   return (
-    <StyledInput placeholder={placeholder} value={value} onChange={onChange}>{children}</StyledInput>
+    <StyledInput placeholder={placeholder} value={value} onChange={onChange} style={style}>{children}</StyledInput>
   )
 }
 

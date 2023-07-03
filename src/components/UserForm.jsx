@@ -31,9 +31,11 @@ const UserForm = ({ active, setActive, popupTitle }) => {
     const [name, setName] = useState('');
     const [surname, setSurname] = useState('');
     const [msg, setMsg] = useState('');
+    const [inputColor, setInputColor] = useState('');
 
     const dispatch = useDispatch();
     const API = useSelector(state => state.api);
+
 
     function submitForm (event) {
         const authData = {
@@ -68,7 +70,7 @@ const UserForm = ({ active, setActive, popupTitle }) => {
             })
             .then(response => {
                 if (response.status === 200) {
-                    setMsg('Аккаунт успешно создан');
+                    setMsg('Производится вход в аккаунт');
                     setTimeout(() => {
                         localStorage.setItem("isLogin", true);
                         localStorage.setItem("user", JSON.stringify(response.data));

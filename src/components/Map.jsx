@@ -64,7 +64,7 @@ const InteractiveMap = () => {
   }
 
   function addMark () {
-    setMarkStatus('кликните по месту, где хотите добавить объект');
+    setMarkStatus('Кликните по месту, где хотите добавить объект');
   }
 
   function editMark (mark) {
@@ -72,8 +72,8 @@ const InteractiveMap = () => {
   }
 
   function onClickMap (e) {
-    if (markStatus == 'кликните по месту, где хотите добавить объект') {
-      setMarkStatus('а теперь отредактируйте новый маркер →');
+    if (markStatus == 'Кликните по месту, где хотите добавить объект') {
+      setMarkStatus('А теперь отредактируйте новый маркер →');
       const mark = {
         title: 'Новая метка',
         description: 'Описание',
@@ -85,6 +85,7 @@ const InteractiveMap = () => {
       axios
         .post(url, mark)
         .then(response => {
+          console.log(response);
           if (response.status === 200) {
             console.log(response.data)
             getMarks();
@@ -126,11 +127,9 @@ const InteractiveMap = () => {
               defaultState={{ 
                 center: [54.973272, 73.381908], 
                 zoom: 13,
-                controls: ["zoomControl"]
               }}
               onClick={onClickMap}
               height={600}
-                modules={["control.ZoomControl"]}
               >
                 {marks.map(mark => 
                   <Placemark key={mark.id}
