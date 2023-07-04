@@ -10,8 +10,8 @@ import './styles/map.css';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <BrowserRouter>
+    <Normalize/>
     <Provider store={store}>
-      <Normalize/>
       <App />
     </Provider>
   </BrowserRouter>,
