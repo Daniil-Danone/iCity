@@ -6,11 +6,11 @@ const StyledMenuBar = styled.div`
     flex-direction: column;
     width: 380px;
     gap: 20px;
-    padding: 20px;
+    padding: 20px 20px 40px 20px;
     box-sizing: border-box;
     box-shadow: 0 0 2px 0;
     
-    background-color: #FEFAEC;
+    background-color: #f0f5fa;
     z-index: 1;
 `
 
@@ -22,4 +22,4 @@ const MenuBar = ({ children }) => {
   )
 }
 
-export default MenuBar;
+export default MenuBar

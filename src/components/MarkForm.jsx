@@ -22,17 +22,23 @@ const ChooseBox = styled.img`
     margin: 5px 0 10px 0;
     border-radius: 10px;
     border: 3px solid ${(props) => 
-        props.typeSelected === true ? '#d58caa' : '#e6e6e6'};
+        props.typeSelected === true ? '#2185fb' : '#e6e6e6'};
+`
+
+const Title = styled.div`
+    font-size: 25px;
+    text-align: center;
+    margin-bottom: 10px;
 `
 
 
 const StyledMarkForm = styled.div`
     display: flex;
     flex-direction: column;
-    gap: 30px;
+    gap: 10px;
     padding: 10px;
     border-radius: 10px;
-    border: 2px solid #D58CAA;
+    background: #ffffff;
 `
 
 
@@ -54,14 +60,24 @@ const MarkForm = ({ currentMark, setIsEditingDone, setPopupText }) => {
     });
 
     function changeState(event) {
-        const type = event.currentTarget.id
-        setIsTypeSelected({
-            'football': type === 'football' ? true : false,
-            'basketball': type === 'basketball' ? true : false,
-            'bike': type === 'bike' ? true : false,
-            'gamepad': type === 'gamepad' ? true : false
-        });
-        setType(type);
+        if (event.currentTarget.id === type) {
+            setType('Не указано')
+            setIsTypeSelected({
+                'football': false,
+                'basketball': false,
+                'bike': false,
+                'gamepad': false
+            })
+        } else {
+            const type = event.currentTarget.id
+            setIsTypeSelected({
+                'football': type === 'football' ? true : false,
+                'basketball': type === 'basketball' ? true : false,
+                'bike': type === 'bike' ? true : false,
+                'gamepad': type === 'gamepad' ? true : false
+            });
+            setType(type);
+        }
     }
 
     async function submitForm (event) {
@@ -94,6 +110,7 @@ const MarkForm = ({ currentMark, setIsEditingDone, setPopupText }) => {
   return (
     <StyledMarkForm>
         <form onSubmit={event => submitForm(event)} spellCheck="false">
+            <Title>Редактирование метки</Title>
             <Input placeholder={currentMark.title} value={title} onChange={event => setTitle(event.target.value)} required />
             <Input placeholder={currentMark.description} value={description} onChange={event => setDescription(event.target.value)}/>
             <Types>

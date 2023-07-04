@@ -8,21 +8,22 @@ const AccordionItem = styled.div`
     width: 100%;
     padding: 10px;
     border-radius: 10px;
-    background-color: #FEB6AA;
+    border: 1px solid #2185fb;
 
 `
 
 const AccordionTitle = styled.div`
+    color: #2185fb;
     display: flex;
     cursor: pointer;
     font-size: 26px;
     border-radius: 10px 10px 0 0;
-    background-color: #FEB6AA;
     justify-content: space-between;
     
 `
 
 const AccordionContent = styled.div`
+    color: #2185fb;
     margin: 5px 10px;
 `
 

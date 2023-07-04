@@ -11,27 +11,27 @@ const Menu = styled.div`
     border-radius: 0 0 10px 10px;
     gap: 30px;
     box-sizing: border-box;
-    background: #FEFAEC;
+    background: #f0f5fa;
     box-shadow: 1px 1px 3px 0;
     width: auto;
     z-index: 2;
     font-size: 30px;
 `
 
-const MenuLink = styled.div`
-    color: black;
+const MenuLink = styled.a`
+    color: #2185fb;
     font-size: 26px;
     transition: 0.2s ease;
+    text-decoration: none;
 
     &:hover {
-        cursor: pointer;
-        color: #D58CAA;
-        text-decoration: none;
+      cursor: pointer;
+      color: #2185fb;
+      text-decoration: none;
     }
 
     &:visited {
-        color: black;
-        text-decoration: none;
+      text-decoration: none;
     }
 `
 

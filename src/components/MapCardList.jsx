@@ -6,6 +6,7 @@ const StyledMapCardList = styled.div`
   display: grid;
   grid-auto-rows: auto;
   gap: 10px;
+  padding-right: 2px;
   font-family: Monserrat, sans-serif;
   overflow-y: scroll;
   overflox-x: hidden;
@@ -17,7 +18,7 @@ const StyledMapCardList = styled.div`
   }
 
   &::-webkit-scrollbar-thumb {
-    background-color: #C17A96;
+    background-color: #2185fb;
     border-radius: 9em;
 }
 `

@@ -4,19 +4,19 @@ import styled from 'styled-components';
 const StyledPositiveButton = styled.button`
     display: block;
     width: 100%;
-    color: black;
+    color: #2185fb;
     font-size: 22px;
     font-family: Avimir, sans-serif;
     background: none;
     cursor: pointer;
-    border: 1px solid #51CE3D;
+    border: 1px solid #2185fb;
     border-radius: 5px;
     padding: 5px;
     transition: 0.2s ease-in-out;
 
     &:hover {
         color: white;
-        background: #51CE3D;
+        background: #2185fb;
     }
 `
 
