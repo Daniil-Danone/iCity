@@ -12,7 +12,7 @@ const Profile = styled.div`
     display: flex;
     box-sizing: border-box;
     box-shadow: 1px 1px 3px 0;
-    background: linear-gradient(to bottom right, pink, white);
+    background: #f0f5fa;
     border-radius: 0 0 10px 10px;
     padding: 10px 15px 10px 10px;
     width: auto;
@@ -21,7 +21,7 @@ const Profile = styled.div`
 `
 
 const Username = styled.div`
-    color: black;
+    color: #2185FB;
     font-size: 26px;
     line-height: 50px;
     transition: 0.2s ease;

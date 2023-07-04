@@ -12,7 +12,7 @@ const StyledProfilePopup = styled.div`
     border-radius: 10px;
     gap: 10px;
     box-sizing: border-box;
-    background: #FEFAEC;
+    background: #f0f5fa;
     box-shadow: 1px 1px 3px 0;
     width: auto;
     z-index: 2;
@@ -20,6 +20,7 @@ const StyledProfilePopup = styled.div`
 `
 
 const StyledProfileItem = styled.div`
+    color: #2185FB;
     &:hover {
         cursor: pointer;
     }
