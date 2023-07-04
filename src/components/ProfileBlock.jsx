@@ -4,7 +4,6 @@ import styled from 'styled-components'
 import avatar from '../images/avatar.jpg'
 import UserForm from './UserForm'
 import ProfilePopup from './ProfilePopup'
-import { useDispatch } from 'react-redux'
 
 const Profile = styled.div`
     position: absolute;
@@ -46,15 +45,10 @@ const Avatar = styled.img`
 `
 
 
-const ProfileBlock = () => {
+const ProfileBlock = ({ user, isLogin, setIsLogin, setUser }) => {
     const [isActive, setIsActive] = useState(false);
     const [popupTitle, setPopupTitle] = useState('');
     const [isProfilePopupActive, setIsProfilePopupActive] = useState(false);
-
-    const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));;
-    const [isLogin, setIsLogin] = useState(localStorage.getItem("isLogin"));
-
-    const dispatch = useDispatch()
 
     function profilePopup () {
         setIsProfilePopupActive(!isProfilePopupActive);
@@ -77,18 +71,11 @@ const ProfileBlock = () => {
         location.reload();
     };
     
-    useEffect(() => {
-        setInterval(() => {
-          if (localStorage.getItem("isLogin") !== isLogin) {
-            setIsLogin(true);
-            setUser(JSON.parse(localStorage.getItem("user")));
-          }
-        }, 1000);
-      }, [])
+    useEffect(() => {}, [isLogin])
 
     return (
         <>
-            <UserForm isActive={isActive} setIsActive={setIsActive} popupTitle={popupTitle}/>
+            <UserForm setIsLogin={setIsLogin} setUser={setUser} isActive={isActive} setIsActive={setIsActive} popupTitle={popupTitle}/>
             <ProfilePopup isProfilePopupActive={isProfilePopupActive} setIsProfilePopupActive={setIsProfilePopupActive} logout={logout}/>
             <Profile>
                 {isLogin

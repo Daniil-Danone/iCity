@@ -1,12 +1,10 @@
 import axios from 'axios'
-import { useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux';
+import { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux';
 
 
-export function useUser(setIsActive) {
+export function useUser(setIsActive, setIsLogin, setUser) {
     const [msg, setMsg] = useState('');
-
-    const dispatch = useDispatch();
 
     const API = useSelector(state => state.api) 
 
@@ -22,6 +20,8 @@ export function useUser(setIsActive) {
                         setTimeout(() => {
                             localStorage.setItem("isLogin", true);
                             localStorage.setItem("user", JSON.stringify(response.data));
+                            setUser(response.data)
+                            setIsLogin(true)
                             setIsActive(false);
                         }, 2000); 
                     }

@@ -24,13 +24,13 @@ const Status = styled.div`
 `
 
 
-const UserForm = ({ isActive, setIsActive, popupTitle }) => {
+const UserForm = ({ setIsLogin, setUser, isActive, setIsActive, popupTitle }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [name, setName] = useState('');
     const [surname, setSurname] = useState('');
     
-    const { msg, getUserMe, authUser, regUser } = useUser(setIsActive);
+    const { isLogin, msg, getUserMe, authUser, regUser } = useUser(setIsActive, setIsLogin, setUser);
 
 
     function submitForm (event) {

@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { YMaps, Map, Placemark } from '@pbe/react-yandex-maps';
-import { useMarks } from '../hooks/useMarks';
+
 
 
 const MapWindow = styled.div`
@@ -12,10 +12,7 @@ const MapWindow = styled.div`
 `
 
 
-const InteractiveMap = () => {
-  const marks = useMarks().marks;
-  const onClick = useMarks().onClickMap;
-  
+const InteractiveMap = ({ marks, onClickMap }) => {
   return (
     <MapWindow>
       <YMaps
@@ -32,7 +29,7 @@ const InteractiveMap = () => {
               center: [54.973272, 73.381908],
               zoom: 13,
             }}
-            onClick={event => onClick(event)}
+            onClick={event => onClickMap(event)}
             >
             {marks.map(mark => 
               <Placemark key={mark.id}

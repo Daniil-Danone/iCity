@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import Input from '../UI/Input'
 import Button from '../UI/Button'
 import NegativeButton from '../UI/NegativeButton';
-import axios from 'axios';
 import { styled } from 'styled-components';
 
 import gamepadImg from '../images/gamepad.png'
@@ -23,7 +22,7 @@ const ChooseBox = styled.img`
     margin: 5px 0 10px 0;
     border-radius: 10px;
     border: 3px solid ${(props) => 
-        props.isSelected === true ? '#d58caa' : '#e6e6e6'};
+        props.typeSelected === true ? '#d58caa' : '#e6e6e6'};
 `
 
 
@@ -37,86 +36,76 @@ const StyledMarkForm = styled.div`
 `
 
 
-const MarkForm = () => {
+const MarkForm = ({ currentMark, setIsEditingDone, setPopupText }) => {
     const user = JSON.parse(localStorage.getItem("user"));
-    const mark = useMarks().editCurrentMark;
-    const setIsDone = useMarks().setIsDone;
-    const setMarkStatus = useMarks().setMarkStatus;
 
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [type, setType] = useState('Не указано');
 
-    const [isSelected, setIsSelected] = useState({
+    const editMark = useMarks().editMark;
+    const deleteMarkAPI = useMarks().deleteMark;
+
+    const [isTypeSelected, setIsTypeSelected] = useState({
         'football': false,
         'basketball': false,
         'bike': false,
         'gamepad': false
     });
-    
-    const xpos = mark.xpos;
-    const ypos = mark.ypos;
-
-    const url = 'http://127.0.0.1:8000/api/v1/mark/' + mark.id
 
     function changeState(event) {
         const type = event.currentTarget.id
-        setIsSelected({
+        setIsTypeSelected({
             'football': type === 'football' ? true : false,
             'basketball': type === 'basketball' ? true : false,
             'bike': type === 'bike' ? true : false,
             'gamepad': type === 'gamepad' ? true : false
         });
         setType(type);
-        event.preventDefault(); 
     }
 
-    function submitForm (event) {
+    async function submitForm (event) {
+        event.preventDefault();
         const mark = {
             title: title,
             description: description,
             author: user.id,
             type: type,
-            xpos: xpos,
-            ypos: ypos
+            xpos: currentMark.xpos,
+            ypos: currentMark.ypos
         };
 
-        axios
-            .put(url, mark)
-            .then(() => {
-                setMarkStatus('Маркер успешно добавлен');
-                setIsDone(true);
-            });
-        event.preventDefault();
-    };
+        const response = await editMark(currentMark.id, mark)
+        if (response) {
+            setPopupText('Метка успешно сохранена');
+            setIsEditingDone(true);
+        }  
+    }
 
-    function deleteMark (event) {
-        axios
-            .delete(url)
-            .then(() => {
-                setMarkStatus('Маркер удалён');
-                setIsDone(true);
-            });
+    async function deleteMark(event) {
         event.preventDefault();
+        const response = await deleteMarkAPI(currentMark.id);
+        if (response) {
+            setPopupText('Метка удалена');
+            setIsEditingDone(true);
+        }
     }
 
   return (
     <StyledMarkForm>
         <form onSubmit={event => submitForm(event)} spellCheck="false">
-            <Input placeholder={mark.title} value={title} onChange={event => setTitle(event.target.value)} required />
-            <Input placeholder={mark.description} value={description} onChange={event => setDescription(event.target.value)}/>
+            <Input placeholder={currentMark.title} value={title} onChange={event => setTitle(event.target.value)} required />
+            <Input placeholder={currentMark.description} value={description} onChange={event => setDescription(event.target.value)}/>
             <Types>
-                <ChooseBox isSelected={isSelected.football} src={footballImg} onClick={event => changeState(event)} id='football'></ChooseBox>
-                <ChooseBox isSelected={isSelected.basketball} src={basketballImg} onClick={event => changeState(event)} id='basketball'></ChooseBox>
-                <ChooseBox isSelected={isSelected.bike} src={bikeImg} onClick={event => changeState(event)} id='bike'></ChooseBox>
-                <ChooseBox isSelected={isSelected.gamepad}src={gamepadImg} onClick={event => changeState(event)} id='gamepad'></ChooseBox>
+                <ChooseBox typeSelected={isTypeSelected.football} src={footballImg} onClick={event => changeState(event)} id='football'></ChooseBox>
+                <ChooseBox typeSelected={isTypeSelected.basketball} src={basketballImg} onClick={event => changeState(event)} id='basketball'></ChooseBox>
+                <ChooseBox typeSelected={isTypeSelected.bike} src={bikeImg} onClick={event => changeState(event)} id='bike'></ChooseBox>
+                <ChooseBox typeSelected={isTypeSelected.gamepad}src={gamepadImg} onClick={event => changeState(event)} id='gamepad'></ChooseBox>
             </Types>
-            
             <Button>Сохранить</Button>
         </form>
         <NegativeButton onClick={event => deleteMark(event)}>Удалить маркер</NegativeButton>
     </StyledMarkForm>
-    
   )
 }
 

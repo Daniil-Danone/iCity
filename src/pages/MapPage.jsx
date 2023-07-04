@@ -4,11 +4,8 @@ import styled from 'styled-components';
 import Wrapper from '../UI/Wrapper';
 import MapBar from '../components/MapBar';
 import ProfileBlock from '../components/ProfileBlock';
-import ProfilePopup from '../components/ProfilePopup';
-import axios from 'axios';
 import { createGlobalStyle } from 'styled-components'
 import MenuBlock from '../components/MenuBlock';
-import { useDispatch } from 'react-redux';
 import { useMarks } from '../hooks/useMarks';
 
 
@@ -27,14 +24,76 @@ const MapPageGrid = styled.div`
 
 
 const MapPage = () => {
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
+  const [isLogin, setIsLogin] = useState(localStorage.getItem("isLogin"));
+
+  const [marks, setMarks] = useState([]); // все метки
+  const [isEditingMark, setIsEditingMark] = useState(false); // идёт ли редактирование текущей метки
+  const [isEditingDone, setIsEditingDone] = useState(false); // завершено ли редактирование текущей метки
+  const [currentMark, setCurrentMark] = useState(null); // данные выбранной метки
+
+  const [infoPopupActive, setInfoPopupActive] = useState(false);// открыта ли подсказка
+  const [popupText, setPopupText] = useState(null); // текст подсказки
+  
+  const getMarks = useMarks().getMarks // Фунция (API-POST-запрос для загрузки меток)
+  const addMark = useMarks().addMark // Фунция (API-POST-запрос для добавления метки)
+
+  async function loadMarks() {
+      const response = await getMarks();
+      setMarks(response)
+  }
+  
+  async function onClickMap(event) {
+    if(popupText === 'Кликните по месту, где хотите добавить объект') {
+      setPopupText('А теперь отредактируйте новый маркер →')
+        const markData = {
+            title: 'Новая метка',
+            description: 'Описание',
+            xpos: event.get("coords")[0],
+            ypos: event.get("coords")[1],
+            author: user.id
+        };
+        const response = await addMark(markData);
+        if (response) {
+          setCurrentMark(response); 
+          setIsEditingMark(true);
+        } 
+        };
+  }
+
+  useEffect(() => {
+    loadMarks();
+    if (isEditingDone) {
+      setIsEditingDone(false);
+      setIsEditingMark(false);
+      setCurrentMark(null);
+      setTimeout(() => {
+        setPopupText(null);
+        setInfoPopupActive(false)
+      }, 1000);
+    }
+  }, [isEditingDone, popupText, isLogin, user])
+
   return (
     <Wrapper>
       <GlobalStyle/>
       <MapPageGrid>
         <MenuBlock/>
-        <ProfileBlock/>
-        <MapBar/>
-        <InteractiveMap/>
+        <ProfileBlock user={user} setUser={setUser} isLogin={isLogin} setIsLogin={setIsLogin}/>
+        <MapBar 
+          isLogin={isLogin}
+          marks={marks}
+          popupText={popupText}
+          setPopupText={setPopupText}
+          isEditingMark={isEditingMark}
+          currentMark={currentMark}
+          setCurrentMark={setCurrentMark}
+          isEditingDone={isEditingDone}
+          setIsEditingDone={setIsEditingDone}
+          infoPopupActive={infoPopupActive}
+          setInfoPopupActive={setInfoPopupActive}
+        />
+        <InteractiveMap marks={marks} onClickMap={onClickMap}/>
       </MapPageGrid>
     </Wrapper>
   )

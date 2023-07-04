@@ -1,7 +1,6 @@
 import React from 'react'
 import MapCard from './MapCard'
 import styled from 'styled-components'
-import { useMarks } from '../hooks/useMarks'
 
 const StyledMapCardList = styled.div`
   display: grid;
@@ -23,8 +22,7 @@ const StyledMapCardList = styled.div`
 }
 `
 
-const MapCardList = () => {
-  const marks = useMarks().marks;
+const MapCardList = ({ marks }) => {
   return (
     <StyledMapCardList>
         {marks.map(mark => <MapCard mark={mark} key={mark.id}/>)}

@@ -16,11 +16,14 @@ const StyledInfoPopup = styled.div`
   transform: translate(-50%);
 `
 
-const InfoPopup = ({ children }) => {
+const InfoPopup = ({ children, active }) => {
   return (
-    <StyledInfoPopup>
-      { children }
-    </StyledInfoPopup>
+    <>
+      {active ? 
+        <StyledInfoPopup>{children}</StyledInfoPopup> :
+        <></>
+      }
+    </>
   )
 }
 

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import MapBarAccordion from './MapBarAccordion'
 import MapCardList from './MapCardList'
 import MarkForm from './MarkForm'
@@ -8,25 +8,26 @@ import Button from '../UI/Button'
 import InfoPopup from '../UI/InfoPopup'
 import Accordion from '../UI/Accordion'
 import objects from '../data/objects'
-import { useMarks } from '../hooks/useMarks'
 
 
-const MapBar = () => {
-    const isLogin = localStorage.getItem("isLogin");
-    const markStatus = useMarks().markStatus;
-    const editCurrentMark = useMarks().editCurrentMark;
-    const addMark = useMarks().addMark;
-     
+const MapBar = ({ isLogin, marks, popupText, setPopupText, isEditingMark, currentMark, setCurrentMark, isEditingDone, setIsEditingDone, infoPopupActive, setInfoPopupActive }) => {
+    function changePopupState() {
+        setPopupText('Кликните по месту, где хотите добавить объект')
+        setInfoPopupActive(true);
+    }
+
+    useEffect(() => {}, [])
+    
     return (
         <MenuBar>
-            {markStatus && <InfoPopup>{markStatus}</InfoPopup>}
+            <InfoPopup active={infoPopupActive}>{popupText}</InfoPopup>
             <Logo href='/'>iCity</Logo>
-            {(editCurrentMark === false) && isLogin && <Button onClick={() => addMark}>Добавить метку</Button>}
-            {editCurrentMark
-            ?   <MarkForm/>
-            :   <MapCardList/>
+            {(isEditingMark === false) && isLogin && <Button onClick={changePopupState}>Добавить метку</Button>}
+            {currentMark
+            ?   <MarkForm currentMark={currentMark} setIsEditingDone={setIsEditingDone} setPopupText={setPopupText}/>
+            :   <MapCardList marks={marks}/>
             }
-            {(editCurrentMark === false)
+            {(isEditingMark === false)
             &&  <Accordion>
                     {objects.map((data) => (
                         <MapBarAccordion data={data} key={data.title}/>
