@@ -9,6 +9,7 @@ import gamepadImg from '../images/gamepad.png'
 import footballImg from '../images/football.png'
 import basketballImg from '../images/basketball.png'
 import bikeImg from '../images/bike.png'
+import { useMarks } from '../hooks/useMarks';
 
 const Types = styled.div`
     display: flex;
@@ -36,8 +37,12 @@ const StyledMarkForm = styled.div`
 `
 
 
-const MarkForm = ( { mark, setIsDone, setMarkStatus } ) => {
+const MarkForm = () => {
     const user = JSON.parse(localStorage.getItem("user"));
+    const mark = useMarks().editCurrentMark;
+    const setIsDone = useMarks().setIsDone;
+    const setMarkStatus = useMarks().setMarkStatus;
+
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [type, setType] = useState('Не указано');
@@ -49,7 +54,6 @@ const MarkForm = ( { mark, setIsDone, setMarkStatus } ) => {
         'gamepad': false
     });
     
-
     const xpos = mark.xpos;
     const ypos = mark.ypos;
 
@@ -95,6 +99,7 @@ const MarkForm = ( { mark, setIsDone, setMarkStatus } ) => {
             });
         event.preventDefault();
     }
+
   return (
     <StyledMarkForm>
         <form onSubmit={event => submitForm(event)} spellCheck="false">

@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import avatar from '../images/avatar.jpg'
 import UserForm from './UserForm'
 import ProfilePopup from './ProfilePopup'
+import { useDispatch } from 'react-redux'
 
 const Profile = styled.div`
     position: absolute;
@@ -52,6 +53,8 @@ const ProfileBlock = () => {
 
     const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));;
     const [isLogin, setIsLogin] = useState(localStorage.getItem("isLogin"));
+
+    const dispatch = useDispatch()
 
     function profilePopup () {
         setIsProfilePopupActive(!isProfilePopupActive);
