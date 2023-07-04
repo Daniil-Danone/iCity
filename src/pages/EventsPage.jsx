@@ -1,12 +1,12 @@
 import React from 'react';
-import DefaultPage from './templates/DefaultPage';
 import EventsList from '../components/EventsList';
+import Wrapper from '../UI/Wrapper';
 
 const EventsPage = () => {
   return (
-    <DefaultPage>
+    <Wrapper>
       <EventsList/>
-    </DefaultPage>
+    </Wrapper>
   )
 }
 

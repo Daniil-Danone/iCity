@@ -1,12 +1,12 @@
 import React from 'react';
-import DefaultPage from './templates/DefaultPage';
+import Wrapper from '../UI/Wrapper';
 
 
 const StartPage = () => {
   return (
-    <DefaultPage>
+    <Wrapper>
       Это главная страница
-    </DefaultPage>
+    </Wrapper>
   )
 }
 
