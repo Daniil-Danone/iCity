@@ -77,9 +77,9 @@ const MapPage = () => {
   return (
     <Wrapper>
       <GlobalStyle/>
+      <MenuBlock/>
+      <ProfileBlock user={user} setUser={setUser} isLogin={isLogin} setIsLogin={setIsLogin}/>
       <MapPageGrid>
-        <MenuBlock/>
-        <ProfileBlock user={user} setUser={setUser} isLogin={isLogin} setIsLogin={setIsLogin}/>
         <MapBar 
           isLogin={isLogin}
           marks={marks}

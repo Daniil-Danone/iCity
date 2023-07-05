@@ -5,6 +5,7 @@ const StyledMenuBar = styled.div`
     display: flex;
     flex-direction: column;
     width: 380px;
+    min-width: 380px;
     gap: 20px;
     padding: 20px 20px 40px 20px;
     box-sizing: border-box;

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 const Container = styled.div`
   padding: 20px;
-  border: 2px orange solid;
+  border: 2px #2185fb solid;
   border-radius: 15px;
 
   display: flex;
