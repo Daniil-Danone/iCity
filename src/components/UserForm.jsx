@@ -59,14 +59,14 @@ const UserForm = ({ setIsLogin, setUser, isActive, setIsActive, popupTitle }) =>
                 <Title>{popupTitle}</Title>
                 <CloseButton onClick={() => setIsActive(false)}></CloseButton>
                 <form onSubmit={submitForm} spellCheck="false">
-                    <Input placeholder='E-mail' value={email} onChange={event => setEmail(event.target.value)} required />
-                    <Input placeholder='Пароль' value={password} onChange={event => setPassword(event.target.value)} required/>
+                    <Input type='text' placeholder='E-mail' value={email} onChange={event => setEmail(event.target.value)} required />
+                    <Input type='text' placeholder='Пароль' value={password} onChange={event => setPassword(event.target.value)} required/>
                     {(popupTitle) === 'Регистрация'
-                    && <Input placeholder='Имя' value={name} onChange={event => setName(event.target.value)}/>
+                    && <Input type='text' placeholder='Имя' value={name} onChange={event => setName(event.target.value)}/>
                     }
 
                     {(popupTitle) === 'Регистрация' 
-                    && <Input placeholder='Фамилия' value={surname} onChange={event => setSurname(event.target.value)}/>
+                    && <Input type='text' placeholder='Фамилия' value={surname} onChange={event => setSurname(event.target.value)}/>
                     }
 
                     {(popupTitle) === 'Аутентификация'

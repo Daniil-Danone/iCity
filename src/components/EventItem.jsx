@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import date from '../images/dateIcon.png'
 import user from '../images/userIcon.png'
 import mark from '../images/markIcon.png'
+import time from '../images/timeIcon.png'
 import gamepadImg from '../images/gamepadIcon.png';
 import footballImg from '../images/footballIcon.png';
 import basketballImg from '../images/basketballIcon.png';
@@ -114,6 +115,29 @@ const EventItem = ({ eventData }) => {
       }
     }
   }
+  function checkType(type){
+    if (type === 'bike') {
+      return 'Велоспорт'
+    } else {
+      if (type === 'Не указано') {
+        return 'Не указано'
+      } else {
+        if (type === 'football') {
+          return 'Футбол'
+        } else {
+          if (type === 'basketball') {
+            return 'Баскетбол'
+          } else {
+            if (type === 'gamepad') {
+              return 'Игры'
+            } else {
+              return 'Не указано'
+            }
+          }
+        }
+      }
+    }
+  }
   return (
     <Container>
         <EventTitle>{eventData.title}</EventTitle>
@@ -121,11 +145,15 @@ const EventItem = ({ eventData }) => {
             <EventBox>
                 <EventItemBlock>
                     <EventImage src={checkImg(eventData.type)}/>
-                    <EventText>{eventData.type}</EventText>               
+                    <EventText>{checkType(eventData.type)}</EventText>               
                 </EventItemBlock>
                 <EventItemBlock>
                   <EventImage src={date}/>
                   <EventText>{eventData.date}</EventText>
+                </EventItemBlock>
+                <EventItemBlock>
+                  <EventImage src={time}/>
+                  <EventText>{eventData.time}</EventText>
                 </EventItemBlock>
                 <EventItemBlock>
                 <EventImage src={user}/>

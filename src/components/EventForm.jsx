@@ -21,8 +21,9 @@ const EventForm = ({ setIsFormActive, popupTitle }) => {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [type, setType] = useState('Не указано');
-    const [date, setDate] = useState('');
-    const [address, setAddress] = useState('');
+    const [date, setDate] = useState('Не указано');
+    const [time, setTime] = useState('Не указано');
+    const [address, setAddress] = useState('Омск');
 
     const addEvent = useEvents().addEvent;
     
@@ -61,6 +62,7 @@ const EventForm = ({ setIsFormActive, popupTitle }) => {
             description: description,
             type: type,
             date: date,
+            time: time,
             address: address,
             author: 1
         };
@@ -75,16 +77,17 @@ const EventForm = ({ setIsFormActive, popupTitle }) => {
         <Form>
             <Title>{popupTitle}</Title>
             <form onSubmit={submitForm}>
-                <Input placeholder='Заголовок' value={title} onChange={event => setTitle(event.target.value)} required />
-                <Input placeholder='Описание' value={description} onChange={event => setDescription(event.target.value)}/>
+                <Input type='text'placeholder='Заголовок' value={title} onChange={event => setTitle(event.target.value)} required />
+                <Input type='text'placeholder='Описание' value={description} onChange={event => setDescription(event.target.value)}/>
                 <Types>
                     <ChooseBox typeSelected={isTypeSelected.football} src={footballImg} onClick={event => changeState(event)} id='football'></ChooseBox>
                     <ChooseBox typeSelected={isTypeSelected.basketball} src={basketballImg} onClick={event => changeState(event)} id='basketball'></ChooseBox>
                     <ChooseBox typeSelected={isTypeSelected.bike} src={bikeImg} onClick={event => changeState(event)} id='bike'></ChooseBox>
                     <ChooseBox typeSelected={isTypeSelected.gamepad}src={gamepadImg} onClick={event => changeState(event)} id='gamepad'></ChooseBox>
                 </Types>
-                <Input placeholder='Дата' value={date} onChange={event => setDate(event.target.value)} required/>
-                <Input placeholder='Адрес' value={address} onChange={event => setAddress(event.target.value)} required/>
+                <Input type='date' placeholder='Дата' value={date} onChange={event => setDate(event.target.value)} required/>
+                <Input type='time' placeholder='Время' value={time} onChange={event => setTime(event.target.value)} required/>
+                <Input type='text' placeholder='Адрес' value={address} onChange={event => setAddress(event.target.value)} required/>
                 <Button>Добавить мероприятие</Button>
             </form>
             <NegativeButton onClick={() => setIsFormActive(false)}>Отменить</NegativeButton>
