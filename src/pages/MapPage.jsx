@@ -4,16 +4,8 @@ import styled from 'styled-components';
 import Wrapper from '../UI/Wrapper';
 import MapBar from '../components/MapBar';
 import ProfileBlock from '../components/ProfileBlock';
-import { createGlobalStyle } from 'styled-components'
 import MenuBlock from '../components/MenuBlock';
 import { useMarks } from '../hooks/useMarks';
-
-
-const GlobalStyle = createGlobalStyle`
-  body {
-    font-family: Montserrat, sans-serif;
-  }
-`;
 
 
 const MapPageGrid = styled.div`
@@ -76,7 +68,6 @@ const MapPage = () => {
 
   return (
     <Wrapper>
-      <GlobalStyle/>
       <MenuBlock/>
       <ProfileBlock user={user} setUser={setUser} isLogin={isLogin} setIsLogin={setIsLogin}/>
       <MapPageGrid>

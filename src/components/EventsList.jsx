@@ -1,51 +1,44 @@
-import React, {useState, useEffect} from 'react';
-import axios from 'axios';
+import React from 'react';
 import EventItem from './EventItem';
 import styled from 'styled-components';
-import EventForm from './EventForm';
-import Button from '../UI/Button';
+
 
 const StyledWrapperEventList = styled.div`
-    padding: 100px 300px 100px 100px;
+  height: 100%;
+  padding: 100px 200px 50px 100px;
+  box-sizing: border-box;
+
 `
 
 const StyledEventList = styled.div`
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    overflow-x: auto;
-    gap: 20px;
+  display: grid;
+  box-sizing: border-box;
+  border-collapse: collapse;
+  height: 100%;
+  grid-template-columns: 1fr 1fr 1fr;
+  overflow-y: auto;
+  gap: 20px;
+  
+  &::-webkit-scrollbar {
+    width: 6px;
+    border-radius: 4px;
+    background-color: #dedede;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background-color: #2185fb;
+    border-radius: 9em;
+  }
 `
 
-const EventsList = () => {
-    const [active, setActive] = useState(false);
-    const [events, setEvents] = useState([]);
-    const [popupTitle, setPopupTitle] = useState('Создание мероприятия')
-    
-    const url = 'http://127.0.0.1:8000/api/v1/event';
-
-    function eventPopup () {
-        setActive(true)
-    }
-
-    useEffect(() => {
-        axios
-            .get(url)
-            .then(response => {
-                console.log(response.data);
-                setEvents(response.data);
-            });
-    }, []);
-
+const EventsList = ({ events }) => {
   return (
-    <>
-    <EventForm active={active} setActive={setActive} popupTitle={popupTitle}/>
     <StyledWrapperEventList>
-        <StyledEventList>
-            {events.map(eventData =>
-            <EventItem eventData={eventData} key={eventData.id}/>)}
-        </StyledEventList>
+      <StyledEventList>
+          {events.map(eventData =>
+          <EventItem eventData={eventData} key={eventData.id}/>)}
+      </StyledEventList>
     </StyledWrapperEventList>
-    </>
   )
 }
 

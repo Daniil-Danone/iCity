@@ -1,45 +1,19 @@
 import React, { useState } from 'react'
-import Input from '../UI/Input'
-import Button from '../UI/Button'
+import Title from '../UI/Title';
+import Input from '../UI/Input';
+import Types from '../UI/Types';
+import Button from '../UI/Button';
+import Form from '../UI/Form';
+import ChooseBox from '../UI/ChooseBox';
 import NegativeButton from '../UI/NegativeButton';
 import { styled } from 'styled-components';
 
-import gamepadImg from '../images/gamepad.png'
-import footballImg from '../images/football.png'
-import basketballImg from '../images/basketball.png'
-import bikeImg from '../images/bike.png'
+import gamepadImg from '../images/gamepad.png';
+import footballImg from '../images/football.png';
+import basketballImg from '../images/basketball.png';
+import bikeImg from '../images/bike.png';
+
 import { useMarks } from '../hooks/useMarks';
-
-const Types = styled.div`
-    display: flex;
-    justify-content: space-between;
-`
-
-
-const ChooseBox = styled.img`
-    display: block;
-    padding: 5px;
-    margin: 5px 0 10px 0;
-    border-radius: 10px;
-    border: 3px solid ${(props) => 
-        props.typeSelected === true ? '#2185fb' : '#e6e6e6'};
-`
-
-const Title = styled.div`
-    font-size: 25px;
-    text-align: center;
-    margin-bottom: 10px;
-`
-
-
-const StyledMarkForm = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    padding: 10px;
-    border-radius: 10px;
-    background: #ffffff;
-`
 
 
 const MarkForm = ({ currentMark, setIsEditingDone, setPopupText }) => {
@@ -108,21 +82,21 @@ const MarkForm = ({ currentMark, setIsEditingDone, setPopupText }) => {
     }
 
   return (
-    <StyledMarkForm>
+    <Form>
         <form onSubmit={event => submitForm(event)} spellCheck="false">
             <Title>Редактирование метки</Title>
             <Input placeholder={currentMark.title} value={title} onChange={event => setTitle(event.target.value)} required />
             <Input placeholder={currentMark.description} value={description} onChange={event => setDescription(event.target.value)}/>
             <Types>
-                <ChooseBox typeSelected={isTypeSelected.football} src={footballImg} onClick={event => changeState(event)} id='football'></ChooseBox>
-                <ChooseBox typeSelected={isTypeSelected.basketball} src={basketballImg} onClick={event => changeState(event)} id='basketball'></ChooseBox>
-                <ChooseBox typeSelected={isTypeSelected.bike} src={bikeImg} onClick={event => changeState(event)} id='bike'></ChooseBox>
-                <ChooseBox typeSelected={isTypeSelected.gamepad}src={gamepadImg} onClick={event => changeState(event)} id='gamepad'></ChooseBox>
+                <ChooseBox typeSelected={isTypeSelected.football} src={footballImg} onClick={event => changeState(event)} id='football'/>
+                <ChooseBox typeSelected={isTypeSelected.basketball} src={basketballImg} onClick={event => changeState(event)} id='basketball'/>
+                <ChooseBox typeSelected={isTypeSelected.bike} src={bikeImg} onClick={event => changeState(event)} id='bike'/>
+                <ChooseBox typeSelected={isTypeSelected.gamepad}src={gamepadImg} onClick={event => changeState(event)} id='gamepad'/>
             </Types>
             <Button>Сохранить</Button>
         </form>
         <NegativeButton onClick={event => deleteMark(event)}>Удалить маркер</NegativeButton>
-    </StyledMarkForm>
+    </Form>
   )
 }
 

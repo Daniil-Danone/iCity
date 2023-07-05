@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import MapBarAccordion from './MapBarAccordion'
 import MapCardList from './MapCardList'
 import MarkForm from './MarkForm'

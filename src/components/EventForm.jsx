@@ -1,38 +1,62 @@
 import React, { useState } from 'react'
-import Popup from '../UI/Popup';
-import styled from 'styled-components'
-import Button from '../UI/Button';
-import CloseButton from '../UI/CloseButton';
-import axios from 'axios';
+import Title from '../UI/Title';
 import Input from '../UI/Input';
+import Types from '../UI/Types';
+import Button from '../UI/Button';
+import Form from '../UI/Form';
+import ChooseBox from '../UI/ChooseBox';
+import NegativeButton from '../UI/NegativeButton';
+import styled from 'styled-components';
+
+import gamepadImg from '../images/gamepad.png';
+import footballImg from '../images/football.png';
+import basketballImg from '../images/basketball.png';
+import bikeImg from '../images/bike.png';
+import { useEvents } from '../hooks/useEvents';
 
 
-const Title = styled.div`
-    width: 100%;
-    text-align: center;
-    font-family: Avimir, sans-serif;
-`
-const PopupContainer = styled.div`
-    position: relative;
-`
-const Status = styled.div`
-    width: 100%;
-    margin-top: 15px;
-    font-size: 12px;
-    text-align: center;
-    color: gray;
-`
 
 
-const EventForm = ({ active, setActive, popupTitle }) => {
+const EventForm = ({ setIsFormActive, popupTitle }) => {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
-    const [type, setType] = useState('');
+    const [type, setType] = useState('Не указано');
     const [date, setDate] = useState('');
     const [address, setAddress] = useState('');
 
-    function submitForm (event) {
-        const data = {
+    const addEvent = useEvents().addEvent;
+    
+    const [isTypeSelected, setIsTypeSelected] = useState({
+        'football': false,
+        'basketball': false,
+        'bike': false,
+        'gamepad': false
+    });
+
+    function changeState(event) {
+        if (event.currentTarget.id === type) {
+            setType('Не указано')
+            setIsTypeSelected({
+                'football': false,
+                'basketball': false,
+                'bike': false,
+                'gamepad': false
+            })
+        } else {
+            const type = event.currentTarget.id
+            setIsTypeSelected({
+                'football': type === 'football' ? true : false,
+                'basketball': type === 'basketball' ? true : false,
+                'bike': type === 'bike' ? true : false,
+                'gamepad': type === 'gamepad' ? true : false
+            });
+            setType(type);
+        }
+    }
+
+    async function submitForm (event) {
+        event.preventDefault();
+        const eventData = {
             title: title,
             description: description,
             type: type,
@@ -40,47 +64,31 @@ const EventForm = ({ active, setActive, popupTitle }) => {
             address: address,
             author: 1
         };
-        setTitle('')
-        setDescription('')
-        setType('')
-        setDate('')
-        setAddress('')
-        setActive(false)
-        addEvent(data);
-        event.preventDefault();
-    };
 
-    function closeWindow() {
-        setActive(false)
-    };
-
-    function addEvent(data) {
-        const url = 'http://127.0.0.1:8000/api/v1/event'
-        axios
-            .post(url, data)
-            .then(response => {
-                console.log(response.data);
-            });
-        location.reload()
-        
+        const response = await addEvent(eventData)
+        if (response) {
+            setIsFormActive(false);
+        }
     };
 
     return (
-        <Popup active={active} setActive={setActive}>
-            <PopupContainer>
-                <Title>{popupTitle}</Title>
-                <CloseButton onClick={closeWindow}></CloseButton>
-                <form onSubmit={submitForm}>
-                    <Input placeholder='Заголовок' value={title} onChange={event => setTitle(event.target.value)} required />
-                    <Input placeholder='Описание' value={description} onChange={event => setDescription(event.target.value)} required/>
-                    <Input placeholder='Тип активности' value={type} onChange={event => setType(event.target.value)} required/>
-                    <Input placeholder='Дата' value={date} onChange={event => setDate(event.target.value)} required/>
-                    <Input placeholder='Адрес' value={address} onChange={event => setAddress(event.target.value)} required/>
-                    <Button>Добавить мероприятие</Button>
-                </form>
-                <Status></Status>
-            </PopupContainer>
-        </Popup>
+        <Form>
+            <Title>{popupTitle}</Title>
+            <form onSubmit={submitForm}>
+                <Input placeholder='Заголовок' value={title} onChange={event => setTitle(event.target.value)} required />
+                <Input placeholder='Описание' value={description} onChange={event => setDescription(event.target.value)}/>
+                <Types>
+                    <ChooseBox typeSelected={isTypeSelected.football} src={footballImg} onClick={event => changeState(event)} id='football'></ChooseBox>
+                    <ChooseBox typeSelected={isTypeSelected.basketball} src={basketballImg} onClick={event => changeState(event)} id='basketball'></ChooseBox>
+                    <ChooseBox typeSelected={isTypeSelected.bike} src={bikeImg} onClick={event => changeState(event)} id='bike'></ChooseBox>
+                    <ChooseBox typeSelected={isTypeSelected.gamepad}src={gamepadImg} onClick={event => changeState(event)} id='gamepad'></ChooseBox>
+                </Types>
+                <Input placeholder='Дата' value={date} onChange={event => setDate(event.target.value)} required/>
+                <Input placeholder='Адрес' value={address} onChange={event => setAddress(event.target.value)} required/>
+                <Button>Добавить мероприятие</Button>
+            </form>
+            <NegativeButton onClick={() => setIsFormActive(false)}>Отменить</NegativeButton>
+        </Form> 
     )
 }
 
