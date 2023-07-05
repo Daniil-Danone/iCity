@@ -11,18 +11,18 @@ const Container = styled.div`
   align-items: center;
 `
 
-const EventItem = ({ event }) => {
+const EventItem = ({ eventData }) => {
   return (
     <Container>
         <div>
-            <h2>{event.title}</h2>
-            <small>{event.type}</small>
-            <p>{event.description}</p>
+            <h2>{eventData.title}</h2>
+            <small>{eventData.type}</small>
+            <p>{eventData.description}</p>
         </div>
         <div>
-            <p>{event.date}</p>
-            <p>{event.address}</p>
-            <p>{event.author}</p>
+            <p>{eventData.date}</p>
+            <p>{eventData.address}</p>
+            <p>{eventData.author}</p>
         </div>
     </Container>
   )

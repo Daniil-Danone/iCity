@@ -41,8 +41,8 @@ const EventsList = () => {
     <EventForm active={active} setActive={setActive} popupTitle={popupTitle}/>
     <StyledWrapperEventList>
         <StyledEventList>
-            {events.map(event =>
-            <EventItem event={event} key={event.id}/>)}
+            {events.map(eventData =>
+            <EventItem eventData={eventData} key={eventData.id}/>)}
         </StyledEventList>
     </StyledWrapperEventList>
     </>
