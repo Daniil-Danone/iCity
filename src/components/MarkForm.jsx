@@ -6,7 +6,6 @@ import Button from '../UI/Button';
 import Form from '../UI/Form';
 import ChooseBox from '../UI/ChooseBox';
 import NegativeButton from '../UI/NegativeButton';
-import { styled } from 'styled-components';
 
 import gamepadImg from '../images/gamepad.png';
 import footballImg from '../images/football.png';

@@ -12,11 +12,13 @@ const StyledWrapperEventList = styled.div`
 
 const StyledEventList = styled.div`
   display: grid;
+  padding-right: 5px;
   box-sizing: border-box;
   border-collapse: collapse;
   height: 100%;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
   overflow-y: auto;
+  overflow-x: hidden;
   gap: 20px;
   
   &::-webkit-scrollbar {

@@ -70,10 +70,12 @@ const EventsPage = () => {
   }
 
   useEffect(() => {
-    if (selectedEvents.length === 0) {
-      loadEvents();
-    } else {
-      selectEvents();
+    if (isFormActive == false) {
+      if (selectedEvents.length === 0) {
+        loadEvents();
+      } else {
+        selectEvents();
+      }
     }
   }, [isFormActive, currentTypes])
   

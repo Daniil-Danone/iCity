@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import Types from '../UI/Types';
 import ChooseBox from '../UI/ChooseBox';
 import Form from '../UI/Form';
 import Title from '../UI/Title';
 import StatusMsg from '../UI/StatusMsg'
+
+import styled from 'styled-components'
 
 import gamepadImg from '../images/gamepad.png';
 import footballImg from '../images/football.png';
@@ -11,10 +13,28 @@ import basketballImg from '../images/basketball.png';
 import bikeImg from '../images/bike.png';
 
 
+const Reset = styled.small`
+    font-size: 13px;
+    color: lightgray;
+    text-decoration: underline;
+
+    &:hover {
+        cursor: pointer;
+    }
+`
 
 const SelectType = ({ status, currentTypes, setCurrentTypes }) => {
 
-    async function changeState(event) {
+    function resetState() {
+        setCurrentTypes({
+            'football': false,
+            'basketball': false,
+            'bike': false,
+            'gamepad': false
+        });
+    }
+
+    function changeState(event) {
         const type = event.currentTarget.id
         setCurrentTypes({
             'football': type === 'football' ? !(currentTypes.football) : currentTypes.football,
@@ -27,6 +47,7 @@ const SelectType = ({ status, currentTypes, setCurrentTypes }) => {
     return (
         <Form>
             <Title>Тематика</Title>
+            <Reset onClick={() => resetState()}>Сбросить фильтры</Reset>
             <Types>
                 <ChooseBox typeSelected={currentTypes.football} src={footballImg} onClick={event => changeState(event)} id='football'/>
                 <ChooseBox typeSelected={currentTypes.basketball} src={basketballImg} onClick={event => changeState(event)} id='basketball'/>
