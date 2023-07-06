@@ -3,6 +3,7 @@ import Types from '../UI/Types';
 import ChooseBox from '../UI/ChooseBox';
 import Form from '../UI/Form';
 import Title from '../UI/Title';
+import Reset from '../UI/Reset';
 import StatusMsg from '../UI/StatusMsg'
 
 import styled from 'styled-components'
@@ -12,16 +13,6 @@ import footballImg from '../images/football.png';
 import basketballImg from '../images/basketball.png';
 import bikeImg from '../images/bike.png';
 
-
-const Reset = styled.small`
-    font-size: 13px;
-    color: lightgray;
-    text-decoration: underline;
-
-    &:hover {
-        cursor: pointer;
-    }
-`
 
 const SelectType = ({ status, currentTypes, setCurrentTypes }) => {
 

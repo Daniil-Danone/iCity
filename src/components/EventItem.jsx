@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import date from '../images/dateIcon.png'
-import user from '../images/userIcon.png'
+import userImg from '../images/userIcon.png'
 import mark from '../images/markIcon.png'
 import time from '../images/timeIcon.png'
 import gamepadImg from '../images/gamepadIcon.png';
@@ -124,10 +124,13 @@ const EventImage = styled.img`
   max-height:30px;
 `
 
-const EventItem = ({ eventData, togoEvents, likedEvents, changeStatusTogoEvent, changeIsLikedStatus }) => {
+const EventItem = ({ user, eventData, togoEvents, likedEvents, changeStatusTogoEvent, changeIsLikedStatus }) => {
   const isLogin = localStorage.getItem("isLogin")
   const amIGoing = togoEvents.indexOf(JSON.stringify(eventData.id)) != -1;
   const isLiked = likedEvents.indexOf(JSON.stringify(eventData.id)) != -1;
+
+
+  // const user = users.find(user => user.id === eventData.author)
   
   function checkImg(type){
     if (type === 'bike') {
@@ -200,8 +203,8 @@ const EventItem = ({ eventData, togoEvents, likedEvents, changeStatusTogoEvent, 
             </EventBox>
             <EventBox>
               <EventItemBlock>
-                <EventImage src={user}/>
-                <EventText>{eventData.author}</EventText>
+                <EventImage src={userImg}/>
+                <EventText>{user[0].name}</EventText>
               </EventItemBlock>
               <EventItemBlock>
                 <EventImage src={mark}/>

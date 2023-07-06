@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import EventItem from './EventItem';
 import styled from 'styled-components';
 
@@ -34,12 +34,13 @@ const StyledEventList = styled.div`
   }
 `
 
-const EventsList = ({ events, togoEvents, likedEvents, changeStatusTogoEvent, changeIsLikedStatus }) => {
+const EventsList = ({ users, events, togoEvents, likedEvents, changeStatusTogoEvent, changeIsLikedStatus }) => {
   return (
     <StyledWrapperEventList>
       <StyledEventList>
-          {events.map(eventData =>
+          {events.map(eventData => 
             <EventItem 
+              user={users.filter(user => user.id === eventData.author)}
               changeIsLikedStatus={changeIsLikedStatus} 
               changeStatusTogoEvent={changeStatusTogoEvent} 
               togoEvents={togoEvents} 
@@ -47,7 +48,8 @@ const EventsList = ({ events, togoEvents, likedEvents, changeStatusTogoEvent, ch
               eventData={eventData} 
               key={eventData.id}
             />
-          )}
+            )
+          }
       </StyledEventList>
     </StyledWrapperEventList>
   )

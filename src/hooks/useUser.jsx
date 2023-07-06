@@ -4,7 +4,17 @@ import { useSelector } from 'react-redux';
 
 
 export function useUser(setIsActive, setIsLogin, setUser) {
-    const API = useSelector(state => state.api) 
+    const API = useSelector(state => state.api)
+
+
+    async function getUsers() {
+        try {
+            const users = await axios.get(API + 'api/v1/user');
+            return users.data
+        } catch(error) {
+            console.log(error)
+        }
+    }
 
     async function getUserEvents(token) {
         try {
@@ -91,5 +101,5 @@ export function useUser(setIsActive, setIsLogin, setUser) {
         }
     }
 
-    return { getUserMe, authUser, regUser, getUserEvents, updateTogoEvents, updateLikedEvents }
+    return { getUsers, getUserMe, authUser, regUser, getUserEvents, updateTogoEvents, updateLikedEvents }
 }

@@ -22,6 +22,8 @@ const EventsPage = () => {
   const [isLogin, setIsLogin] = useState(localStorage.getItem("isLogin"));
   const token = localStorage.getItem("token");
 
+  const [users, setUsers] = useState([]);
+
   const [isEditingDone, setIsEditingDone] = useState(false);
 
   const [isChecked, setIsChecked] = useState(false); // отмечены ли "понравившиеся"
@@ -45,15 +47,22 @@ const EventsPage = () => {
   const [status, setStatus] = useState('') // статус сортировки
   const [isFormActive, setIsFormActive] = useState(false); // активна ли форма добавления мероприятия
 
+  const getUsers = useUser().getUsers;
   const getEvents = useEvents().getEvents;
   const getUserEvents = useUser().getUserEvents;
   const updateTogoEvents = useUser().updateTogoEvents;
   const updateLikedEvents = useUser().updateLikedEvents;
 
-  async function loadEvents() {
-    const response = await getEvents();
-    setVisibleEvents(response)
-    setAllEvents(response)
+  async function loadData() {
+    setInfoPopupMsg('Загрузка...');
+    setIsActive(true);
+    const events = await getEvents();
+    const users = await getUsers();
+    setVisibleEvents(events);
+    setAllEvents(events);
+    setUsers(users);
+    setInfoPopupMsg('');
+    setIsActive(false);
   }
 
   async function loadUserEvents() {
@@ -167,7 +176,7 @@ const EventsPage = () => {
     loadUserEvents();
     if (allEvents.length === 0 || isEditingDone) {
       setIsEditingDone(false);
-      loadEvents();
+      loadData();
     }
     if (isFormActive === false) {
       selectLiked();
@@ -193,6 +202,7 @@ const EventsPage = () => {
         setIsFormActive={setIsFormActive}
         />
         <EventsList 
+          users={users}
           likedEvents={likedEvents} 
           togoEvents={togoEvents}
           changeIsLikedStatus={changeIsLikedStatus}
