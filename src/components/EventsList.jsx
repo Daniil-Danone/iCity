@@ -34,12 +34,20 @@ const StyledEventList = styled.div`
   }
 `
 
-const EventsList = ({ events, togoEvents, changeStatusTogoEvent }) => {
+const EventsList = ({ events, togoEvents, likedEvents, changeStatusTogoEvent, changeIsLikedStatus }) => {
   return (
     <StyledWrapperEventList>
       <StyledEventList>
           {events.map(eventData =>
-          <EventItem changeStatusTogoEvent={changeStatusTogoEvent} togoEvents={togoEvents} eventData={eventData} key={eventData.id}/>)}
+            <EventItem 
+              changeIsLikedStatus={changeIsLikedStatus} 
+              changeStatusTogoEvent={changeStatusTogoEvent} 
+              togoEvents={togoEvents} 
+              likedEvents={likedEvents} 
+              eventData={eventData} 
+              key={eventData.id}
+            />
+          )}
       </StyledEventList>
     </StyledWrapperEventList>
   )

@@ -8,11 +8,14 @@ import gamepadImg from '../images/gamepadIcon.png';
 import footballImg from '../images/footballIcon.png';
 import basketballImg from '../images/basketballIcon.png';
 import bikeImg from '../images/bikeIcon.png';
-import questionImg from '../images/questionIcon.png'
+import questionImg from '../images/questionIcon.png';
+import heartFilled from '../images/heartFilled.png'
+import heartBordered from '../images/heartBordered.png';
 
 
 
 const Container = styled.div`
+  position: relative;
   width: 300px;
   height: 190px;
   padding: 5px;
@@ -25,15 +28,21 @@ const Container = styled.div`
   overflow-y: hidden;
   box-shadow: 1px 1px 2px;
 `
-const EventTitle = styled.h2`
-  margin: 0 auto;
+const EventTitle = styled.div`
+  text-align: center;
+  padding: 0 30px;
   float: top;
+  width: 100%;
   color: #4B4B4B;
   font-size: 18px;
   font-style: normal;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
   font-weight: 600;
   line-height: normal;
   margin-bottom: 20px;
+  box-sizing: border-box;
 `
 
 const EventText = styled.h2`
@@ -103,16 +112,22 @@ const EventItemBlock = styled.div`
   align-items:center;
 `
 
+const EventLiked = styled.div`
+  position: absolute;
+  right: 5px;
+`
+
 const EventImage = styled.img`
   min-width:30px;
   min-height:30px;
   max-width:30px;
   max-height:30px;
-  
 `
 
-const EventItem = ({ eventData, togoEvents, changeStatusTogoEvent }) => {
+const EventItem = ({ eventData, togoEvents, likedEvents, changeStatusTogoEvent, changeIsLikedStatus }) => {
   const amIGoing = togoEvents.indexOf(JSON.stringify(eventData.id)) != -1;
+  const isLiked = likedEvents.indexOf(JSON.stringify(eventData.id)) != -1;
+  
   function checkImg(type){
     if (type === 'bike') {
       return bikeImg
@@ -163,6 +178,9 @@ const EventItem = ({ eventData, togoEvents, changeStatusTogoEvent }) => {
   return (
     <Container>
         <EventTitle>{eventData.title}</EventTitle>
+        <EventLiked>
+          {isLiked ? <EventImage onClick={() => changeIsLikedStatus('delete', eventData.id)} src={heartFilled}/> : <EventImage onClick={() => changeIsLikedStatus('add', eventData.id)} src={heartBordered}/>} 
+        </EventLiked>
         <DescriprionContainer>
             <EventBox>
                 <EventItemBlock>

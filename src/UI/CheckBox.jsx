@@ -11,11 +11,10 @@ const StyledLabel = styled.label`
   cursor: pointer;
 `
 
-const CheckBox = ({ label }) => {
-    const [isChecked, setIsChecked] = useState(false);
+const CheckBox = ({ label, isChecked, setIsChecked }) => {
     return (
       <StyledLabel>
-        <StyledCheckBox type="checkbox" checked={isChecked} onChange={() => setIsChecked(!isChecked)} />
+        <StyledCheckBox type="checkbox" checked={isChecked} onChange={() => setIsChecked(!isChecked)}/>
         {label}
       </StyledLabel>
     

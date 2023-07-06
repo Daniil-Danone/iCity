@@ -8,13 +8,13 @@ export function useUser(setIsActive, setIsLogin, setUser) {
 
     const API = useSelector(state => state.api) 
 
-    async function getTogoEvents(token) {
+    async function getUserEvents(token) {
         try {
             const togoEvents = await axios.get(API + 'api/v1/auth/users/me/', {
                 headers: {'Authorization': token}
             })
 
-            return togoEvents.data.togo_events
+            return togoEvents.data
         } catch(error) {
             console.log(error)
         }
@@ -27,6 +27,18 @@ export function useUser(setIsActive, setIsLogin, setUser) {
             })
 
             return togoEvents.data.togo_events
+        } catch(error) {
+            console.log(error)
+        }
+    }
+
+    async function updateLikedEvents(token, data) {
+        try {
+            const togoEvents = await axios.put(API + 'api/v1/auth/users/me/', data, {
+                headers: {'Authorization': token}
+            })
+
+            return togoEvents.data.liked_events
         } catch(error) {
             console.log(error)
         }
@@ -89,5 +101,5 @@ export function useUser(setIsActive, setIsLogin, setUser) {
         }
     }
 
-    return { msg, getUserMe, authUser, regUser, getTogoEvents, updateTogoEvents }
+    return { msg, getUserMe, authUser, regUser, getUserEvents, updateTogoEvents, updateLikedEvents }
 }

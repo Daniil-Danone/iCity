@@ -21,10 +21,13 @@ const EventsPage = () => {
   const [isLogin, setIsLogin] = useState(localStorage.getItem("isLogin"));
   const token = localStorage.getItem("token");
 
-  const [togoEvents, setTogoEvents] = useState([]);
+  const [isChecked, setIsChecked] = useState(false);
 
   const [allEvents, setAllEvents] = useState([]) // все мероприятия
-  const [selectedEvents, setSelectedEvents] = useState([]); // сортированные мероприятия
+  const [togoEvents, setTogoEvents] = useState([]); // ID мероприятий на которые идёт пользователь
+  const [likedEvents, setLikedEvents] = useState([]); // ID понравившихся пользователю мероприятий
+  const [selectedEvents, setSelectedEvents] = useState([]);
+  const [visibleEvents, setVisibleEvents] = useState([]); // отображаемые на странице мероприятия
 
   const [currentTypes, setCurrentTypes] = useState({
     'football': false,
@@ -37,78 +40,118 @@ const EventsPage = () => {
   const [isFormActive, setIsFormActive] = useState(false); // активна ли форма добавления мероприятия
 
   const getEvents = useEvents().getEvents;
-  const getTogoEvents = useUser().getTogoEvents;
+  const getUserEvents = useUser().getUserEvents;
   const updateTogoEvents = useUser().updateTogoEvents;
+  const updateLikedEvents = useUser().updateLikedEvents;
 
   async function loadEvents() {
     const response = await getEvents();
-    setSelectedEvents(response)
+    setVisibleEvents(response)
     setAllEvents(response)
   }
 
-  async function loadTogoEvents() {
-    const response = await getTogoEvents(token);
-    setTogoEvents(response.split(', '));
+  async function loadUserEvents() {
+    const response = await getUserEvents(token);
+    setTogoEvents(response.togo_events.split(' '));
+    setLikedEvents(response.liked_events.split(' '));
   }
 
   async function changeStatusTogoEvent(type, eventId) {
     if (type === 'add') {
       togoEvents.push(JSON.stringify(eventId))
       const data = {
-        togo_events: togoEvents.join(', ')
+        togo_events: togoEvents.join(' ')
       }
-      const response = await updateTogoEvents(token, data);
+      await updateTogoEvents(token, data);
     } else {
       if (type === 'delete') {
         let filteredTogoEvents = togoEvents.filter(item => item != JSON.stringify(eventId));
         const data = {
-          togo_events: filteredTogoEvents.join(', ')
+          togo_events: filteredTogoEvents.join(' ')
         }
-        const response = await updateTogoEvents(token, data);
+        await updateTogoEvents(token, data);
       }
     }
     
-    loadTogoEvents();
+    loadUserEvents();
   }
 
-  function selectEvents() {
-    let sortedEvents = allEvents.filter(function(event) {
-      if (event.type === "football" && currentTypes.football) {
-          return true
-      } else {
-        if (event.type === "basketball" && currentTypes.basketball) {
-          return true
+  async function changeIsLikedStatus(type, eventId) {
+    if (type === 'add') {
+      likedEvents.push(JSON.stringify(eventId))
+      const data = {
+        liked_events: likedEvents.join(' ')
+      }
+      await updateLikedEvents(token, data);
+    } else {
+      if (type === 'delete') {
+        let filteredTLikedEvents = likedEvents.filter(item => item != JSON.stringify(eventId));
+        const data = {
+          liked_events: filteredTLikedEvents.join(' ')
+        }
+        await updateLikedEvents(token, data);
+      }
+    }
+
+    loadUserEvents();
+  }
+
+  function selectEvents(eventList) {
+    if (currentTypes.football === false && currentTypes.basketball === false 
+      && currentTypes.bike === false && currentTypes.gamepad === false) {
+        console.log('1');
+        setStatus('');
+        setVisibleEvents(eventList);
+    } else {
+      let sortedEvents = eventList.filter(event => {
+        if (event.type === "football" && currentTypes.football) {
+            return true
         } else {
-          if (event.type === "bike" && currentTypes.bike) {
+          if (event.type === "basketball" && currentTypes.basketball) {
             return true
           } else {
-            if (event.type === "gamepad" && currentTypes.gamepad) {
+            if (event.type === "bike" && currentTypes.bike) {
               return true
+            } else {
+              if (event.type === "gamepad" && currentTypes.gamepad) {
+                return true
+              }
             }
           }
         }
+      })
+      
+      if (sortedEvents.length === 0) {
+        setStatus('Нет результатов');
+        setVisibleEvents([]);
+      } else {
+        setVisibleEvents(sortedEvents);
+        setStatus('Найдено результатов: ' + sortedEvents.length)
       }
-    })
-    if (sortedEvents.length === 0) {
-      loadEvents();
-      setStatus(null)
-    } else {
-      setStatus('Найдено результатов: ' + sortedEvents.length)
     }
-    setSelectedEvents(sortedEvents)
+  }
+
+  function selectLiked() {
+    if (isChecked) {
+      let sortedEvents = allEvents.filter(event => {
+        const isLiked = likedEvents.indexOf(JSON.stringify(event.id)) != -1;
+        return isLiked
+      });
+      selectEvents(sortedEvents);
+    } else {
+      selectEvents(allEvents);
+    }
   }
 
   useEffect(() => {
-    loadTogoEvents();
-    console.log(togoEvents);
-    if (isFormActive == false) {
-      if (selectedEvents.length === 0) {
-        loadEvents();
-      } else {
-        selectEvents();
-      }
+    loadUserEvents();
+    if (allEvents.length === 0) {
+      loadEvents();
     }
-  }, [isFormActive, currentTypes])
+    if (isFormActive === false) {
+      selectLiked();
+    }
+  }, [isFormActive, currentTypes, isChecked])
   
   return (
     <Wrapper>
@@ -116,6 +159,9 @@ const EventsPage = () => {
       <MenuBlock/>
       <EventsPageGrig>
         <EventBar 
+        selectLiked={selectLiked}
+        isChecked={isChecked}
+        setIsChecked={setIsChecked}
         status={status}
         currentTypes={currentTypes}
         setCurrentTypes={setCurrentTypes}
@@ -123,7 +169,13 @@ const EventsPage = () => {
         isFormActive={isFormActive} 
         setIsFormActive={setIsFormActive}
         />
-        <EventsList togoEvents={togoEvents} changeStatusTogoEvent={changeStatusTogoEvent} events={selectedEvents}/>
+        <EventsList 
+          likedEvents={likedEvents} 
+          togoEvents={togoEvents}
+          changeIsLikedStatus={changeIsLikedStatus}
+          changeStatusTogoEvent={changeStatusTogoEvent} 
+          events={visibleEvents}
+        />
       </EventsPageGrig>
     </Wrapper>
   )
