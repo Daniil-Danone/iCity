@@ -5,6 +5,7 @@ import Button from '../UI/Button';
 import CloseButton from '../UI/CloseButton';
 import Input from '../UI/Input';
 import { useUser } from '../hooks/useUser';
+import CheckBox from '../UI/Checkbox';
 
 
 const Title = styled.div`
@@ -29,11 +30,15 @@ const UserForm = ({ setIsLogin, setUser, isActive, setIsActive, popupTitle }) =>
     const [password, setPassword] = useState('');
     const [name, setName] = useState('');
     const [surname, setSurname] = useState('');
-    
-    const { isLogin, msg, getUserMe, authUser, regUser } = useUser(setIsActive, setIsLogin, setUser);
+    const [msg, setMsg] = useState('');
 
+    const [isChecked, setIsChecked] = useState(false);
+
+    const authUser = useUser(setIsActive, setIsLogin, setUser).authUser;
+    const regUser = useUser(setIsActive, setIsLogin, setUser).regUser;
 
     function submitForm (event) {
+        setMsg('Пожалуйста, подождите...')
         const authData = {
             email: email,
             password: password
@@ -46,9 +51,11 @@ const UserForm = ({ setIsLogin, setUser, isActive, setIsActive, popupTitle }) =>
             surname: surname
         };
 
-        (popupTitle) === 'Аутентификация' 
-        ? authUser(authData)
-        : regUser(regData, authData)
+        if (popupTitle === 'Аутентификация') {
+            authUser(authData)
+        } else {
+            regUser(regData, authData)
+        }
 
         event.preventDefault();
     };
@@ -58,13 +65,13 @@ const UserForm = ({ setIsLogin, setUser, isActive, setIsActive, popupTitle }) =>
             <PopupContainer>
                 <Title>{popupTitle}</Title>
                 <CloseButton onClick={() => setIsActive(false)}></CloseButton>
-                <form onSubmit={submitForm} spellCheck="false">
+                <form onSubmit={event => submitForm(event)} spellCheck="false">
                     <Input type='text' placeholder='E-mail' value={email} onChange={event => setEmail(event.target.value)} required />
-                    <Input type='text' placeholder='Пароль' value={password} onChange={event => setPassword(event.target.value)} required/>
+                    <Input type={isChecked ? 'text' : 'password'} placeholder='Пароль' value={password} onChange={event => setPassword(event.target.value)} required/>
+                    <CheckBox label='Показать пароль' isChecked={isChecked} setIsChecked={setIsChecked}/>
                     {(popupTitle) === 'Регистрация'
                     && <Input type='text' placeholder='Имя' value={name} onChange={event => setName(event.target.value)}/>
                     }
-
                     {(popupTitle) === 'Регистрация' 
                     && <Input type='text' placeholder='Фамилия' value={surname} onChange={event => setSurname(event.target.value)}/>
                     }

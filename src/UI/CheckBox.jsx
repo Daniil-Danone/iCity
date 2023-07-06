@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import styled from 'styled-components';
 
 const StyledCheckBox = styled.input`
@@ -9,6 +9,7 @@ const StyledLabel = styled.label`
   display: flex;
   gap: 5px;
   cursor: pointer;
+  margin-bottom: 10px;
 `
 
 const CheckBox = ({ label, isChecked, setIsChecked }) => {

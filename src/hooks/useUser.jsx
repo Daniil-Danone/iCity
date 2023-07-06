@@ -4,8 +4,6 @@ import { useSelector } from 'react-redux';
 
 
 export function useUser(setIsActive, setIsLogin, setUser) {
-    const [msg, setMsg] = useState('');
-
     const API = useSelector(state => state.api) 
 
     async function getUserEvents(token) {
@@ -52,14 +50,11 @@ export function useUser(setIsActive, setIsLogin, setUser) {
                 })
                 .then(response => {
                     if(response.status === 200) {
-                        setMsg('Производится вход в аккаунт');
-                        setTimeout(() => {
-                            localStorage.setItem("isLogin", true);
-                            localStorage.setItem("user", JSON.stringify(response.data));
-                            setUser(response.data)
-                            setIsLogin(true)
-                            setIsActive(false);
-                        }, 2000); 
+                        localStorage.setItem("isLogin", true);
+                        localStorage.setItem("user", JSON.stringify(response.data));
+                        setUser(response.data)
+                        setIsLogin(true)
+                        setIsActive(false);
                     }
                 })
         } catch(error) {
@@ -75,8 +70,6 @@ export function useUser(setIsActive, setIsLogin, setUser) {
                     if (response.status === 200) {
                         localStorage.setItem('token', 'Token ' + response.data.auth_token);
                         getUserMe(localStorage.getItem("token"));
-                    } else {
-                        setMsg('Произошла ошибка...');
                     }
                 })
         } catch(error) {
@@ -85,15 +78,12 @@ export function useUser(setIsActive, setIsLogin, setUser) {
     }
 
     async function regUser(regData, authData) {
-        setMsg('Создание аккаунта...');
         try {
             await axios
                 .post(API + 'api/v1/auth/users/', regData)
                 .then(response => {
                     if (response.status === 201) {
                         authUser(authData);
-                    } else {
-                        setMsg('Произошла ошибка...');
                     }
                 })
         } catch(error) {
@@ -101,5 +91,5 @@ export function useUser(setIsActive, setIsLogin, setUser) {
         }
     }
 
-    return { msg, getUserMe, authUser, regUser, getUserEvents, updateTogoEvents, updateLikedEvents }
+    return { getUserMe, authUser, regUser, getUserEvents, updateTogoEvents, updateLikedEvents }
 }

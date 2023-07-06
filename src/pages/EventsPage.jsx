@@ -51,9 +51,11 @@ const EventsPage = () => {
   }
 
   async function loadUserEvents() {
-    const response = await getUserEvents(token);
-    setTogoEvents(response.togo_events.split(' '));
-    setLikedEvents(response.liked_events.split(' '));
+    if (isLogin) {
+      const response = await getUserEvents(token);
+      setTogoEvents(response.togo_events.split(' '));
+      setLikedEvents(response.liked_events.split(' '));
+    }
   }
 
   async function changeStatusTogoEvent(type, eventId) {
@@ -100,7 +102,6 @@ const EventsPage = () => {
     if (currentTypes.football === false && currentTypes.basketball === false 
       && currentTypes.bike === false && currentTypes.gamepad === false) {
         console.log('1');
-        setStatus('');
         setVisibleEvents(eventList);
     } else {
       let sortedEvents = eventList.filter(event => {
@@ -137,8 +138,14 @@ const EventsPage = () => {
         const isLiked = likedEvents.indexOf(JSON.stringify(event.id)) != -1;
         return isLiked
       });
+      if (sortedEvents.length === 0) {
+        setStatus('Нет результатов');
+      } else {
+        setStatus('Найдено результатов: ' + sortedEvents.length)
+      }
       selectEvents(sortedEvents);
     } else {
+      setStatus('')
       selectEvents(allEvents);
     }
   }
@@ -151,7 +158,7 @@ const EventsPage = () => {
     if (isFormActive === false) {
       selectLiked();
     }
-  }, [isFormActive, currentTypes, isChecked])
+  }, [user, isLogin, isFormActive, currentTypes, isChecked])
   
   return (
     <Wrapper>

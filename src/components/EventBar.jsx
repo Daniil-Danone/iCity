@@ -1,13 +1,13 @@
-import React from 'react'
-import MenuBar from '../UI/MenuBar'
-import Logo from '../UI/Logo'
-import Button from '../UI/Button'
-import EventForm from './EventForm'
-import SelectType from './SelectType'
-import CheckBox from '../UI/CheckBox'
+import React from 'react';
+import MenuBar from '../UI/MenuBar';
+import Logo from '../UI/Logo';
+import Button from '../UI/Button';
+import EventForm from './EventForm';
+import SelectType from './SelectType';
+import CheckBox from '../UI/Checkbox';
 
 
-const EventBar = ({ selectLiked, isChecked, setIsChecked, status, currentTypes, setCurrentTypes, isLogin, isFormActive, setIsFormActive }) => {
+const EventBar = ({ isChecked, setIsChecked, status, currentTypes, setCurrentTypes, isLogin, isFormActive, setIsFormActive }) => {
   return (
     <MenuBar>
       <Logo>iCity</Logo>
