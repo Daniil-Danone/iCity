@@ -17,7 +17,7 @@ const StyledEventList = styled.div`
   border-collapse: collapse;
   height: 100%;
   grid-template-columns: 1fr 1fr 1fr 1fr;
-  grid-template-rows: 190px;
+  grid-template-rows: 200px;
   overflow-y: auto;
   overflow-x: hidden;
   gap: 20px;
@@ -34,12 +34,12 @@ const StyledEventList = styled.div`
   }
 `
 
-const EventsList = ({ events, togoEvents, addTogoEvent }) => {
+const EventsList = ({ events, togoEvents, changeStatusTogoEvent }) => {
   return (
     <StyledWrapperEventList>
       <StyledEventList>
           {events.map(eventData =>
-          <EventItem addTogoEvent={addTogoEvent} togoEvents={togoEvents} eventData={eventData} key={eventData.id}/>)}
+          <EventItem changeStatusTogoEvent={changeStatusTogoEvent} togoEvents={togoEvents} eventData={eventData} key={eventData.id}/>)}
       </StyledEventList>
     </StyledWrapperEventList>
   )

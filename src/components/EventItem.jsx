@@ -14,7 +14,7 @@ import questionImg from '../images/questionIcon.png'
 
 const Container = styled.div`
   width: 300px;
-  height: 180px;
+  height: 190px;
   padding: 5px;
   border: 2px #2185fb solid;
   border-radius: 15px;
@@ -66,7 +66,6 @@ const EventButton = styled.button`
   font-style: normal;
   font-weight: 500;
   line-height: normal;
-  margin-top: 20px;
   cursor: pointer;
   padding: 5px;
   transition: 0.2s ease-in-out;
@@ -74,6 +73,27 @@ const EventButton = styled.button`
   &:hover {
     background-color: orange;
     color: white;
+  }
+`
+
+const Status = styled.div`
+  color: #2185fb;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 500;
+`
+
+const EventDelete = styled.button`
+  font-size: 13px;
+  background: none;
+  color: #595959;
+  border: none;
+  cursor: pointer;
+  text-decoration: underline;l
+  transition: 0.2s ease-in-out;
+
+  &:hover {
+    color: red;
   }
 `
 
@@ -91,7 +111,7 @@ const EventImage = styled.img`
   
 `
 
-const EventItem = ({ eventData, togoEvents, addTogoEvent }) => {
+const EventItem = ({ eventData, togoEvents, changeStatusTogoEvent }) => {
   const amIGoing = togoEvents.indexOf(JSON.stringify(eventData.id)) != -1;
   function checkImg(type){
     if (type === 'bike') {
@@ -157,20 +177,21 @@ const EventItem = ({ eventData, togoEvents, addTogoEvent }) => {
                   <EventImage src={time}/>
                   <EventText>{eventData.time}</EventText>
                 </EventItemBlock>
-                <EventItemBlock>
-                <EventImage src={user}/>
-                    <EventText>{eventData.author}</EventText>
-                </EventItemBlock>
                   {/*<EventText>{eventData.description}</EventText> */}
             </EventBox>
             <EventBox>
-                <EventItemBlock>
+              <EventItemBlock>
+                <EventImage src={user}/>
+                <EventText>{eventData.author}</EventText>
+              </EventItemBlock>
+              <EventItemBlock>
                 <EventImage src={mark}/>
-                    <EventText>{eventData.address}</EventText>
-                </EventItemBlock>
-                {amIGoing ? <EventText>Уже иду</EventText> : <EventButton onClick={() => addTogoEvent(eventData.id)}>Я пойду</EventButton>}
-              </EventBox>
+                <EventText>{eventData.address}</EventText>
+              </EventItemBlock>
+            </EventBox>
         </DescriprionContainer>
+        {amIGoing && <Status>Уже иду</Status>}
+        {amIGoing ? <EventDelete onClick={() => changeStatusTogoEvent('delete', eventData.id)}>Отменить участие</EventDelete> : <EventButton onClick={() => changeStatusTogoEvent('add', eventData.id)}>Я пойду</EventButton>}
     </Container>
   )
 }

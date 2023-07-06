@@ -51,12 +51,23 @@ const EventsPage = () => {
     setTogoEvents(response.split(', '));
   }
 
-  async function addTogoEvent(eventId) {
-    togoEvents.push(JSON.stringify(eventId))
-    const data = {
-      togo_events: togoEvents.join(', ')
+  async function changeStatusTogoEvent(type, eventId) {
+    if (type === 'add') {
+      togoEvents.push(JSON.stringify(eventId))
+      const data = {
+        togo_events: togoEvents.join(', ')
+      }
+      const response = await updateTogoEvents(token, data);
+    } else {
+      if (type === 'delete') {
+        let filteredTogoEvents = togoEvents.filter(item => item != JSON.stringify(eventId));
+        const data = {
+          togo_events: filteredTogoEvents.join(', ')
+        }
+        const response = await updateTogoEvents(token, data);
+      }
     }
-    const response = await updateTogoEvents(token, data);
+    
     loadTogoEvents();
   }
 
@@ -112,7 +123,7 @@ const EventsPage = () => {
         isFormActive={isFormActive} 
         setIsFormActive={setIsFormActive}
         />
-        <EventsList togoEvents={togoEvents} addTogoEvent={addTogoEvent} events={selectedEvents}/>
+        <EventsList togoEvents={togoEvents} changeStatusTogoEvent={changeStatusTogoEvent} events={selectedEvents}/>
       </EventsPageGrig>
     </Wrapper>
   )
