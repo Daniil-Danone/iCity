@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 const StyledLink = styled.a`
-  color: white;
+  color: #2185fb;
   text-decoration: none;
 
   transition: 0.2s ease-in-out;
@@ -14,6 +14,7 @@ const StyledLink = styled.a`
   }
   
   &:visited {
+    color: #2185fb;
     text-decoration: none;
   }
 `

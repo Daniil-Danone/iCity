@@ -7,7 +7,7 @@ import Form from '../UI/Form';
 import Reset from '../UI/Reset';
 import ChooseBox from '../UI/ChooseBox';
 import NegativeButton from '../UI/NegativeButton';
-import { YMaps, Map, Placemark } from '@pbe/react-yandex-maps';
+import EventMap from './EventMap';
 
 import styled from 'styled-components';
 
@@ -115,44 +115,22 @@ const EventForm = ({ setIsEditingDone, setIsFormActive, popupTitle }) => {
                 <Input type='text' placeholder='Адрес' value={address} onChange={event => setAddress(event.target.value)} required/>
                 <Reset onClick={() => {setXPos(''); setYPos(''); setIsMark(false)}}>Сбросить метку</Reset>
                 <MapWindow>
-                    <YMaps
-                    query={{
-                        ns: "use-load-option",
-                        load: "Map,Placemark,control.ZoomControl,geoObject.addon.balloon",
-                    }}
-                    >
-                        <div>
-                        <Map
-                            width={320}
-                            height={200}
-                            defaultState={{ 
-                            center: [54.969470126992405, 73.41684108497125],
-                            zoom: 13,
-                            }}
-                            onClick={event => onClickMap(event)}
-                            >
-                            {isMark && 
-                                <Placemark
-                                    defaultGeometry={[xpos, ypos]}
-                                    options={{
-                                        preset: 'islands#circleIcon',
-                                        iconColor: '#2185fb',
-                                    }}
-
-                                    properties={{ 
-                                        balloonContentHeader: title + '<div><small>' + type + '</small></div>',
-                                        balloonContentBody: description,
-                                        balloonContentFooter: '<div><small>Дата: ' + date + '</small></div><div><small>Время: ' + time + '</small></div>' + address
-                                    }}
-                                />
-                            }
-                        </Map>
-                        </div>
-                    </YMaps>
+                    <EventMap 
+                    isMark={isMark}
+                    onClickMap={onClickMap}
+                    title={title}
+                    type={type}
+                    description={description}
+                    date={date}
+                    time={time}
+                    address={address}
+                    xpos={xpos}
+                    ypos={ypos}
+                    />
                 </MapWindow>
                 <Button>Добавить мероприятие</Button>
             </form>
-            <NegativeButton onClick={() => setIsFormActive(false)}>Отменить</NegativeButton>
+            <NegativeButton onClick={() => {setIsMark(false), setIsFormActive(false)}}>Отменить</NegativeButton>
         </Form> 
     )
 }

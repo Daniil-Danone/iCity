@@ -18,23 +18,22 @@ const EventsPageGrig = styled.div`
 `
 
 const EventsPage = () => {
-  const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
-  const [isLogin, setIsLogin] = useState(localStorage.getItem("isLogin"));
-  const token = localStorage.getItem("token");
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem("user"))); // объект пользователя
+  const [isLogin, setIsLogin] = useState(localStorage.getItem("isLogin")); // залогинен ли пользователь
+  const token = localStorage.getItem("token"); // токен пользователя
 
-  const [users, setUsers] = useState([]);
-
-  const [isEditingDone, setIsEditingDone] = useState(false);
-
-  const [isChecked, setIsChecked] = useState(false); // отмечены ли "понравившиеся"
-
-  const [infoPopupMsg, setInfoPopupMsg] = useState(null); // сообщение в попапе
-  const [isActive, setIsActive] = useState(false); // открыт ли попап
+  const [users, setUsers] = useState([]); // пользователи (для ссылок на них с мероприятий)
 
   const [allEvents, setAllEvents] = useState([]) // все мероприятия
   const [togoEvents, setTogoEvents] = useState([]); // ID мероприятий на которые идёт пользователь
   const [likedEvents, setLikedEvents] = useState([]); // ID понравившихся пользователю мероприятий
   const [visibleEvents, setVisibleEvents] = useState([]); // отображаемые на странице мероприятия
+
+  const [isEditingDone, setIsEditingDone] = useState(false); // завершено ли добавление мероприятия
+  const [isChecked, setIsChecked] = useState(false); // отмечены ли "понравившиеся"
+  
+  const [infoPopupMsg, setInfoPopupMsg] = useState(null); // сообщение в попапе
+  const [isActive, setIsActive] = useState(false); // открыт ли попап
 
   // выбор типа мероприятия
   const [currentTypes, setCurrentTypes] = useState({
@@ -47,12 +46,13 @@ const EventsPage = () => {
   const [status, setStatus] = useState('') // статус сортировки
   const [isFormActive, setIsFormActive] = useState(false); // активна ли форма добавления мероприятия
 
-  const getUsers = useUser().getUsers;
-  const getEvents = useEvents().getEvents;
-  const getUserEvents = useUser().getUserEvents;
-  const updateTogoEvents = useUser().updateTogoEvents;
-  const updateLikedEvents = useUser().updateLikedEvents;
+  const getUsers = useUser().getUsers; // функция возврата пользователей из БД
+  const getEvents = useEvents().getEvents; // функция возврата мероприятий из БД
+  const getUserEvents = useUser().getUserEvents; // функция возврата мероприятий пользователя из БД
+  const updateTogoEvents = useUser().updateTogoEvents; // функция обновления мероприятий, на которы зареган пользователь
+  const updateLikedEvents = useUser().updateLikedEvents; // функция обновления лайкнутых мероприятий пользователя
 
+  // выгрузка основных данных из БД (мероприятия и пользователи)
   async function loadData() {
     setInfoPopupMsg('Загрузка...');
     setIsActive(true);
@@ -65,6 +65,7 @@ const EventsPage = () => {
     setIsActive(false);
   }
 
+  // выгрузка данных пользователя из БД и обновление стейта зареганных и лайкнутых мероприятий
   async function loadUserEvents() {
     if (isLogin) {
       const response = await getUserEvents(token);
@@ -73,6 +74,7 @@ const EventsPage = () => {
     }
   }
 
+  // изменение (добавление или удаление) из зареганных мероприятий
   async function changeStatusTogoEvent(type, eventId) {
     if (isLogin) {
       if (type === 'add') {
@@ -101,6 +103,7 @@ const EventsPage = () => {
     }
   }
 
+  // изменение (добавление или удаление) из лайкнутых мероприятий
   async function changeIsLikedStatus(type, eventId) {
     if (type === 'add') {
       likedEvents.push(JSON.stringify(eventId))
@@ -120,7 +123,8 @@ const EventsPage = () => {
 
     loadUserEvents();
   }
-
+  
+  // сортировка мероприятий по выбранному(ым) типу(ам)
   function selectEvents(eventList) {
     if (currentTypes.football === false && currentTypes.basketball === false 
       && currentTypes.bike === false && currentTypes.gamepad === false) {
@@ -154,6 +158,7 @@ const EventsPage = () => {
     }
   }
 
+  // сортировка мероприятий по лайкам
   function selectLiked() {
     if (isChecked) {
       let sortedEvents = allEvents.filter(event => {

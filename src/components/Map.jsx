@@ -45,7 +45,6 @@ const InteractiveMap = ({ marks, onClickMap }) => {
     <MapWindow>
       <YMaps
       query={{
-        ns: "use-load-option",
         load: "Map,Placemark,control.ZoomControl,geoObject.addon.balloon",
       }}
       >

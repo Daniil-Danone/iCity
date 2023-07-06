@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import Link from '../UI/Link'
 
 const StyledProfilePopup = styled.div`
     position: absolute;
@@ -30,9 +31,9 @@ const ProfilePopup = ({ isProfilePopupActive, setIsProfilePopupActive, logout })
     if (isProfilePopupActive) {
         return (
         <StyledProfilePopup>
-            <StyledProfileItem onClick={() => setIsProfilePopupActive(false)}>Мой профиль</StyledProfileItem>
-            <StyledProfileItem onClick={() => setIsProfilePopupActive(false)}>Настройки</StyledProfileItem>
-            <StyledProfileItem onClick={() => logout()}>Выйти</StyledProfileItem>
+            <StyledProfileItem onClick={() => setIsProfilePopupActive(false)}><Link href={'profile'}>Мой профиль</Link></StyledProfileItem>
+            <StyledProfileItem onClick={() => setIsProfilePopupActive(false)}><Link>Настройки</Link></StyledProfileItem>
+            <StyledProfileItem onClick={() => logout()}><Link>Выйти</Link></StyledProfileItem>
             </StyledProfilePopup>
         )
     }
