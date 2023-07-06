@@ -91,7 +91,8 @@ const EventImage = styled.img`
   
 `
 
-const EventItem = ({ eventData }) => {
+const EventItem = ({ eventData, togoEvents, addTogoEvent }) => {
+  const amIGoing = togoEvents.indexOf(JSON.stringify(eventData.id)) != -1;
   function checkImg(type){
     if (type === 'bike') {
       return bikeImg
@@ -138,6 +139,7 @@ const EventItem = ({ eventData }) => {
       }
     }
   }
+
   return (
     <Container>
         <EventTitle>{eventData.title}</EventTitle>
@@ -166,7 +168,7 @@ const EventItem = ({ eventData }) => {
                 <EventImage src={mark}/>
                     <EventText>{eventData.address}</EventText>
                 </EventItemBlock>
-                    <EventButton>Я иду</EventButton>
+                {amIGoing ? <EventText>Уже иду</EventText> : <EventButton onClick={() => addTogoEvent(eventData.id)}>Я пойду</EventButton>}
               </EventBox>
         </DescriprionContainer>
     </Container>

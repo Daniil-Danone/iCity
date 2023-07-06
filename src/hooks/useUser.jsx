@@ -8,6 +8,30 @@ export function useUser(setIsActive, setIsLogin, setUser) {
 
     const API = useSelector(state => state.api) 
 
+    async function getTogoEvents(token) {
+        try {
+            const togoEvents = await axios.get(API + 'api/v1/auth/users/me/', {
+                headers: {'Authorization': token}
+            })
+
+            return togoEvents.data.togo_events
+        } catch(error) {
+            console.log(error)
+        }
+    }
+
+    async function updateTogoEvents(token, data) {
+        try {
+            const togoEvents = await axios.put(API + 'api/v1/auth/users/me/', data, {
+                headers: {'Authorization': token}
+            })
+
+            return togoEvents.data.togo_events
+        } catch(error) {
+            console.log(error)
+        }
+    }
+
     async function getUserMe(token) {
         try {
             await axios
@@ -65,5 +89,5 @@ export function useUser(setIsActive, setIsLogin, setUser) {
         }
     }
 
-    return { msg, getUserMe, authUser, regUser }
+    return { msg, getUserMe, authUser, regUser, getTogoEvents, updateTogoEvents }
 }

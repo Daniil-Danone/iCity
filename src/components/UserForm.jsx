@@ -48,7 +48,7 @@ const UserForm = ({ setIsLogin, setUser, isActive, setIsActive, popupTitle }) =>
 
         (popupTitle) === 'Аутентификация' 
         ? authUser(authData)
-        : regUser(authData, regData)
+        : regUser(regData, authData)
 
         event.preventDefault();
     };

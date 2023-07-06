@@ -34,12 +34,12 @@ const StyledEventList = styled.div`
   }
 `
 
-const EventsList = ({ events }) => {
+const EventsList = ({ events, togoEvents, addTogoEvent }) => {
   return (
     <StyledWrapperEventList>
       <StyledEventList>
           {events.map(eventData =>
-          <EventItem eventData={eventData} key={eventData.id}/>)}
+          <EventItem addTogoEvent={addTogoEvent} togoEvents={togoEvents} eventData={eventData} key={eventData.id}/>)}
       </StyledEventList>
     </StyledWrapperEventList>
   )

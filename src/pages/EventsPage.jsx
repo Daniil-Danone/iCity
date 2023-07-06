@@ -6,6 +6,7 @@ import MenuBlock from '../components/MenuBlock';
 import ProfileBlock from '../components/ProfileBlock';
 import EventBar from '../components/EventBar';
 import { useEvents } from '../hooks/useEvents';
+import { useUser } from '../hooks/useUser';
 
 
 
@@ -18,10 +19,12 @@ const EventsPageGrig = styled.div`
 const EventsPage = () => {
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
   const [isLogin, setIsLogin] = useState(localStorage.getItem("isLogin"));
+  const token = localStorage.getItem("token");
 
-  const [allEvents, setAllEvents] = useState([])
+  const [togoEvents, setTogoEvents] = useState([]);
 
-  const [selectedEvents, setSelectedEvents] = useState([]);
+  const [allEvents, setAllEvents] = useState([]) // все мероприятия
+  const [selectedEvents, setSelectedEvents] = useState([]); // сортированные мероприятия
 
   const [currentTypes, setCurrentTypes] = useState({
     'football': false,
@@ -30,16 +33,31 @@ const EventsPage = () => {
     'gamepad': false
   });
 
-  const [status, setStatus] = useState(' ')
-
-  const [isFormActive, setIsFormActive] = useState(false);
+  const [status, setStatus] = useState('') // статус сортировки
+  const [isFormActive, setIsFormActive] = useState(false); // активна ли форма добавления мероприятия
 
   const getEvents = useEvents().getEvents;
+  const getTogoEvents = useUser().getTogoEvents;
+  const updateTogoEvents = useUser().updateTogoEvents;
 
   async function loadEvents() {
     const response = await getEvents();
     setSelectedEvents(response)
     setAllEvents(response)
+  }
+
+  async function loadTogoEvents() {
+    const response = await getTogoEvents(token);
+    setTogoEvents(response.split(', '));
+  }
+
+  async function addTogoEvent(eventId) {
+    togoEvents.push(JSON.stringify(eventId))
+    const data = {
+      togo_events: togoEvents.join(', ')
+    }
+    const response = await updateTogoEvents(token, data);
+    loadTogoEvents();
   }
 
   function selectEvents() {
@@ -70,6 +88,8 @@ const EventsPage = () => {
   }
 
   useEffect(() => {
+    loadTogoEvents();
+    console.log(togoEvents);
     if (isFormActive == false) {
       if (selectedEvents.length === 0) {
         loadEvents();
@@ -92,7 +112,7 @@ const EventsPage = () => {
         isFormActive={isFormActive} 
         setIsFormActive={setIsFormActive}
         />
-        <EventsList events={selectedEvents}/>
+        <EventsList togoEvents={togoEvents} addTogoEvent={addTogoEvent} events={selectedEvents}/>
       </EventsPageGrig>
     </Wrapper>
   )

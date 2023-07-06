@@ -18,6 +18,7 @@ import { useEvents } from '../hooks/useEvents';
 
 
 const EventForm = ({ setIsFormActive, popupTitle }) => {
+    const user = JSON.parse(localStorage.getItem("user"))
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [type, setType] = useState('Не указано');
@@ -64,7 +65,7 @@ const EventForm = ({ setIsFormActive, popupTitle }) => {
             date: date,
             time: time,
             address: address,
-            author: 1
+            author: user.id
         };
 
         const response = await addEvent(eventData)
