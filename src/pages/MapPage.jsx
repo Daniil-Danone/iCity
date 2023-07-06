@@ -50,7 +50,19 @@ const MapPage = () => {
           setCurrentMark(response); 
           setIsEditingMark(true);
         } 
-        };
+        } else {
+          setIsEditingDone(true);
+          setCurrentMark(null); 
+          setIsEditingMark(false);
+        }
+  }
+
+  async function onClickMark(mark) {
+    setCurrentMark(null); 
+    setIsEditingMark(false);
+
+    setCurrentMark(mark)
+    setIsEditingMark(true);
   }
 
   useEffect(() => {
@@ -59,12 +71,10 @@ const MapPage = () => {
       setIsEditingDone(false);
       setIsEditingMark(false);
       setCurrentMark(null);
-      setTimeout(() => {
-        setPopupText(null);
-        setInfoPopupActive(false)
-      }, 1000);
+      setPopupText(null);
+      setInfoPopupActive(false)
     }
-  }, [isEditingDone, popupText, isLogin, user])
+  }, [isEditingDone, popupText, isLogin, user, currentMark])
 
   return (
     <Wrapper>
@@ -84,7 +94,7 @@ const MapPage = () => {
           infoPopupActive={infoPopupActive}
           setInfoPopupActive={setInfoPopupActive}
         />
-        <InteractiveMap marks={marks} onClickMap={onClickMap}/>
+        <InteractiveMap marks={marks} onClickMap={onClickMap} onClickMark={onClickMark}/>
       </MapPageGrid>
     </Wrapper>
   )

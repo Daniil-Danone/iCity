@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Title from '../UI/Title';
 import Input from '../UI/Input';
 import Types from '../UI/Types';
@@ -18,18 +18,18 @@ import { useMarks } from '../hooks/useMarks';
 const MarkForm = ({ currentMark, setIsEditingDone, setPopupText }) => {
     const user = JSON.parse(localStorage.getItem("user"));
 
-    const [title, setTitle] = useState('');
-    const [description, setDescription] = useState('');
-    const [type, setType] = useState('Не указано');
+    const [title, setTitle] = useState(currentMark.title);
+    const [description, setDescription] = useState(currentMark.description);
+    const [type, setType] = useState(currentMark.type);
 
     const editMark = useMarks().editMark;
     const deleteMarkAPI = useMarks().deleteMark;
 
     const [isTypeSelected, setIsTypeSelected] = useState({
-        'football': false,
-        'basketball': false,
-        'bike': false,
-        'gamepad': false
+        'football': type === 'football' ? true : false,
+        'basketball': type === 'basketball' ? true : false,
+        'bike': type === 'bike' ? true : false,
+        'gamepad': type === 'gamepad' ? true : false
     });
 
     function changeState(event) {
@@ -79,6 +79,8 @@ const MarkForm = ({ currentMark, setIsEditingDone, setPopupText }) => {
             setIsEditingDone(true);
         }
     }
+
+    useEffect(() => {}, [currentMark])
 
   return (
     <Form>

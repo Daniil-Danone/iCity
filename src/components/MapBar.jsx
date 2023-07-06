@@ -16,7 +16,7 @@ const MapBar = ({ isLogin, marks, popupText, setPopupText, isEditingMark, curren
         setInfoPopupActive(true);
     }
 
-    useEffect(() => {}, [])
+    useEffect(() => {}, [currentMark])
     
     return (
         <MenuBar>

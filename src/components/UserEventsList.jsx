@@ -1,24 +1,22 @@
-import React, { useState } from 'react';
+import React from 'react';
 import EventItem from './EventItem';
 import styled from 'styled-components';
 
 
-const StyledWrapperEventList = styled.div`
+const StyledUserWrapperEventList = styled.div`
   height: 100%;
-  padding: 100px 200px 50px 100px;
   box-sizing: border-box;
 
 `
 
-const StyledEventList = styled.div`
+const StyledUserEventList = styled.div`
   display: grid;
   padding: 20px;
   padding-right: 5px;
   box-sizing: border-box;
   border-collapse: collapse;
-  height: 100%;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-  grid-auto-rows: 200px;
+  grid-template-columns: 1fr 1fr;
+  grid-auto-rows: 205px;
   overflow-y: auto;
   overflow-x: hidden;
   gap: 20px;
@@ -35,10 +33,10 @@ const StyledEventList = styled.div`
   }
 `
 
-const EventsList = ({ users, events, togoEvents, likedEvents, changeStatusTogoEvent, changeIsLikedStatus }) => {
+const UserEventsList = ({ users, events, togoEvents, likedEvents, changeStatusTogoEvent, changeIsLikedStatus }) => {
   return (
-    <StyledWrapperEventList>
-      <StyledEventList>
+    <StyledUserWrapperEventList>
+      <StyledUserEventList>
           {events.map(eventData => 
             <EventItem 
               user={users.filter(user => user.id === eventData.author)}
@@ -51,9 +49,9 @@ const EventsList = ({ users, events, togoEvents, likedEvents, changeStatusTogoEv
             />
             )
           }
-      </StyledEventList>
-    </StyledWrapperEventList>
+      </StyledUserEventList>
+    </StyledUserWrapperEventList>
   )
 }
 
-export default EventsList;
+export default UserEventsList;

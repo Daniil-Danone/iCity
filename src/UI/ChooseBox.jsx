@@ -8,6 +8,7 @@ const StyledChooseBox = styled.img`
     border-radius: 10px;
     border: 3px solid ${(props) => 
         props.typeSelected === true ? '#2185fb' : '#e6e6e6'};
+    curdor: pointer;
 `
 
 const ChooseBox = ({ typeSelected, src, onClick, id }) => {

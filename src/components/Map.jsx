@@ -17,7 +17,7 @@ const MapWindow = styled.div`
 `
 
 
-const InteractiveMap = ({ marks, onClickMap }) => {
+const InteractiveMap = ({ marks, onClickMap, onClickMark }) => {
 
   function checkImg(type){
     if (type === 'bike') {
@@ -60,6 +60,7 @@ const InteractiveMap = ({ marks, onClickMap }) => {
             >
             {marks.map(mark =>
               <Placemark key={mark.id}
+              onClick={() => onClickMark(mark)}
               defaultGeometry={[mark.xpos, mark.ypos]}
               options={{
                 iconLayout: 'default#image',

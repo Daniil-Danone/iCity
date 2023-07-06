@@ -4,16 +4,19 @@ import MenuBlock from '../components/MenuBlock'
 import styled from 'styled-components';
 import BusinessCard from '../components/BusinessCard'
 import React, {useState, useEffect} from 'react';
-import EventsList from '../components/EventsList';
-import EventItem from '../components/EventItem';
-import EventForm from '../components/EventForm';
+import UserEventsList from '../components/UserEventsList';
 import { useUser } from '../hooks/useUser';
 import { useEvents } from '../hooks/useEvents'
 
 
+const StyledWrapper = styled.div`
+  font-family: Montserrat, sans-serif;
+  padding: 0 200px;
+`
+
 const StyledWrapperEventList = styled.div`
-  padding: 0px 100px 0px 100px;
-  
+  box-sizing: border-box;
+  padding: 0 100px;
 `
 
 const Logo = styled.a`
@@ -46,6 +49,7 @@ const ProfileContainer = styled.div`
 
 const ProfileMeets = styled.div`
   display:flex;
+  width: 100%;
   flex-direction:column;
   border: 2px gray solid;
   border-radius:20px;
@@ -65,9 +69,9 @@ const ProfileMeetsTitle = styled.h2`
 `
 
 const MeetsContainer = styled.div`
+  width: 100%;
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  overflow-y: auto;
+  
 `
 
 const LeftBlock = styled.div`
@@ -89,8 +93,6 @@ const ProfilePage = () => {
   const [isFormActive, setIsFormActive] = useState(false); // активна ли форма добавления мероприятия
 
   const [popupTitle, setPopupTitle] = useState('Создание мероприятия');
-
-  const [isUpdatingDone, setIsUpdatingDone] = useState(false); // завершено ли обновление мероприятий
   
   
   const getUsers = useUser().getUsers; // функция возврата пользователей из БД
@@ -113,7 +115,6 @@ const ProfilePage = () => {
       const response = await getUserEvents(token);
       setTogoEvents(response.togo_events.split(' '));
       setLikedEvents(response.liked_events.split(' '));
-      setIsUpdatingDone(true);
     }
   }
 
@@ -142,7 +143,6 @@ const ProfilePage = () => {
       }
 
       loadUserEvents();
-      setIsUpdatingDone(true);
     }
   }
 
@@ -164,11 +164,10 @@ const ProfilePage = () => {
     }
     
     loadUserEvents();
-    setIsUpdatingDone(true);
   }
 
   useEffect(() => {
-    isUpdatingDone && showEvents(); setIsUpdatingDone(false);
+    showEvents();
     if (allEvents.length === 0) {
       loadData();
     }
@@ -176,36 +175,36 @@ const ProfilePage = () => {
       loadUserEvents();
       showEvents();
     }
-  }, [user, isLogin, isUpdatingDone]);
+  }, [user, isLogin, togoEvents]);
 
   return (
     <Wrapper>
       <Logo href='/'>iCity</Logo>
       <MenuBlock></MenuBlock>
       <Settings>Settings</Settings>
-      <ProfileContainer>
-        <LeftBlock>
-          <BusinessCard user={user}/>
-          <ProfileInfoUser/>
-        </LeftBlock>
-
-        <ProfileMeets>
-          <ProfileMeetsTitle>Встречи пользователя</ProfileMeetsTitle>
-            <MeetsContainer>
-                  {isFormActive && <EventForm active={isFormActive} setActive={setIsFormActive} popupTitle={popupTitle}/>}
-                <StyledWrapperEventList>
-                    <EventsList 
-                      users={users}
-                      likedEvents={likedEvents} 
-                      togoEvents={togoEvents}
-                      changeIsLikedStatus={changeIsLikedStatus}
-                      changeStatusTogoEvent={changeStatusTogoEvent} 
-                      events={visibleEvents}
-                    />
-                </StyledWrapperEventList>
-            </MeetsContainer>
-        </ProfileMeets>
-      </ProfileContainer>
+      <StyledWrapper>
+        <ProfileContainer>
+          <LeftBlock>
+            <BusinessCard user={user}/>
+            <ProfileInfoUser/>
+          </LeftBlock>
+          <ProfileMeets>
+            <ProfileMeetsTitle>Встречи пользователя</ProfileMeetsTitle>
+              <MeetsContainer>
+                  <StyledWrapperEventList>
+                      <UserEventsList 
+                        users={users}
+                        likedEvents={likedEvents} 
+                        togoEvents={togoEvents}
+                        changeIsLikedStatus={changeIsLikedStatus}
+                        changeStatusTogoEvent={changeStatusTogoEvent} 
+                        events={visibleEvents}
+                      />
+                  </StyledWrapperEventList>
+              </MeetsContainer>
+          </ProfileMeets>
+        </ProfileContainer>
+      </StyledWrapper>
     </Wrapper>
   )
 }

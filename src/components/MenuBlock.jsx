@@ -39,7 +39,7 @@ const MenuLink = styled.a`
 const MenuBlock = () => {
   return (
     <Menu>
-      <MenuLink href='/map'>Карта</MenuLink>
+      <MenuLink href='/'>Карта</MenuLink>
       <MenuLink href='/events'>Мероприятия</MenuLink>
     </Menu>
   )

@@ -17,7 +17,7 @@ import heartBordered from '../images/heartBordered.png';
 const Container = styled.div`
   position: relative;
   width: 300px;
-  height: 190px;
+  height: auto;
   padding: 5px;
   border: 2px #2185fb solid;
   border-radius: 15px;
@@ -122,6 +122,7 @@ const EventImage = styled.img`
   min-height:30px;
   max-width:30px;
   max-height:30px;
+  cursor: pointer;
 `
 
 const EventItem = ({ user, eventData, togoEvents, likedEvents, changeStatusTogoEvent, changeIsLikedStatus }) => {
