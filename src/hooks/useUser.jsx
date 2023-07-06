@@ -15,6 +15,18 @@ export function useUser(setIsActive, setIsLogin, setUser) {
             console.log(error)
         }
     }
+    
+    async function updateUser(token, data) {
+        try {
+            const response = await axios.put(API + 'api/v1/auth/users/me/', data, {
+                headers: {'Authorization': token}
+            })
+
+            return response.data
+        } catch(error) {
+            console.log(error)
+        }
+    }
 
     async function getUserEvents(token) {
         try {
@@ -101,5 +113,5 @@ export function useUser(setIsActive, setIsLogin, setUser) {
         }
     }
 
-    return { getUsers, getUserMe, authUser, regUser, getUserEvents, updateTogoEvents, updateLikedEvents }
+    return { getUsers, updateUser, getUserMe, authUser, regUser, getUserEvents, updateTogoEvents, updateLikedEvents }
 }

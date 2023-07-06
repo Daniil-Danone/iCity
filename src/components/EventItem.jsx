@@ -11,6 +11,8 @@ import bikeImg from '../images/bikeIcon.png';
 import questionImg from '../images/questionIcon.png';
 import heartFilled from '../images/heartFilled.png'
 import heartBordered from '../images/heartBordered.png';
+import trash from '../images/trash.png';
+import { useEvents } from '../hooks/useEvents';
 
 
 
@@ -117,6 +119,17 @@ const EventLiked = styled.div`
   right: 5px;
 `
 
+const Trash = styled.img`
+  position: absolute;
+  right: 5px;
+  min-width:30px;
+  min-height:30px;
+  max-width:30px;
+  max-height:30px;
+  cursor: pointer;
+  top: 40px;
+`
+
 const EventImage = styled.img`
   min-width:30px;
   min-height:30px;
@@ -126,10 +139,17 @@ const EventImage = styled.img`
 `
 
 const EventItem = ({ user, eventData, togoEvents, likedEvents, changeStatusTogoEvent, changeIsLikedStatus }) => {
-  const isLogin = localStorage.getItem("isLogin")
+  const currentUser = JSON.parse(localStorage.getItem("user"));
+  const isLogin = localStorage.getItem("isLogin");
   const amIGoing = togoEvents.indexOf(JSON.stringify(eventData.id)) != -1;
   const isLiked = likedEvents.indexOf(JSON.stringify(eventData.id)) != -1;
 
+  const deleteEvent = useEvents().deleteEvent;
+
+  async function delEvent() {
+    await deleteEvent(eventData.id)
+    location.reload();
+  }
 
   // const user = users.find(user => user.id === eventData.author)
   
@@ -184,8 +204,9 @@ const EventItem = ({ user, eventData, togoEvents, likedEvents, changeStatusTogoE
     <Container>
         <EventTitle>{eventData.title}</EventTitle>
         <EventLiked>
-          {isLiked ? isLogin && <EventImage onClick={() => changeIsLikedStatus('delete', eventData.id)} src={heartFilled}/> : isLogin && <EventImage onClick={() => changeIsLikedStatus('add', eventData.id)} src={heartBordered}/>} 
+          {isLiked ? isLogin && <EventImage onClick={() => changeIsLikedStatus('delete', eventData.id)} src={heartFilled}/> : isLogin && <EventImage onClick={() => changeIsLikedStatus('add', eventData.id)} src={heartBordered}/>}
         </EventLiked>
+        {currentUser.id === eventData.author && <Trash src={trash} onClick={() => delEvent()}/>}
         <DescriprionContainer>
             <EventBox>
                 <EventItemBlock>

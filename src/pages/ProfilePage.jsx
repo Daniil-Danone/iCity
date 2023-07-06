@@ -7,6 +7,8 @@ import React, {useState, useEffect} from 'react';
 import UserEventsList from '../components/UserEventsList';
 import { useUser } from '../hooks/useUser';
 import { useEvents } from '../hooks/useEvents'
+import Link from '../UI/Link'
+import ProfileBlock from '../components/ProfileBlock'
 
 
 const StyledWrapper = styled.div`
@@ -59,7 +61,7 @@ const ProfilePageGrid = styled.div`
 `
 
 const ProfileMeets = styled.div`
-  width: 100%;
+  min-width: 100%;
   height: 100%;
   position: absolute;
   grid-area: events;
@@ -69,7 +71,6 @@ const ProfileMeets = styled.div`
 
 const ProfileMeetsTitle = styled.h2`
   color: #000;
-  font-family: Montserrat Alternates;
   font-size: 22px;
   font-style: normal;
   font-weight: 400;
@@ -186,9 +187,9 @@ const ProfilePage = () => {
 
   return (
     <Wrapper>
-      <Logo href='/'>iCity</Logo>
-      <MenuBlock></MenuBlock>
-      <Settings>Settings</Settings>
+      <Logo href='/'><Link>iCity</Link></Logo>
+      <MenuBlock/>
+      <ProfileBlock user={user} setUser={setUser} isLogin={isLogin} setIsLogin={setIsLogin}/>
       <StyledWrapper>
         <ProfilePageGrid>
           <BusinessCard user={user}/>

@@ -68,7 +68,7 @@ const ProfileBlock = ({ user, isLogin, setIsLogin, setUser }) => {
         localStorage.removeItem("user");
         localStorage.removeItem("token");
         localStorage.removeItem("isLogin");
-        location.reload();
+        window.location.href = '/'
     };
     
     useEffect(() => {}, [isLogin])

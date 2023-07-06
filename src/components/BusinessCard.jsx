@@ -7,10 +7,11 @@ const MainBlock = styled.div`
     background: linear-gradient(106.35deg, #FFECDF 0.71%, #FFA3A3 128.04%);
     border-radius: 30px;
     height: 225px;
-    width: 520px;
+    width: 557px;
     align-items: center;
     padding-left: 20px;
     grid-area: usercard;
+    box-sizing: border-box;
 `
 const Avatar = styled.img`
     display: block;
@@ -18,21 +19,17 @@ const Avatar = styled.img`
     height: 150px;
     border-radius: 50%;
 `
-/* const Check = styled.img`
-    border-radius: 50%;
-` */
 
 const Username = styled.text`
     color: #FFFFFF;
     font-size: 28px;
-    font-family: 'Montserrat';
     font-weight: 600;
+    
 `
 
 const Rating = styled.text`
     color: #FFFFFF;
     font-size: 20px;
-    font-family: 'Montserrat';
     font-weight: 600;
 `
 
@@ -54,10 +51,6 @@ const BusinessCard = ({ user }) => {
             <Avatar src={avatar}></Avatar>
             <Cont>
                 <Username>{user.name + ' ' + user.surname}</Username>
-                    <div>
-                        <Star src={star}></Star>
-                        <Rating>4.9</Rating>
-                    </div>
             </Cont>
             {/* <Check src={check}></Check> */}
         </MainBlock>
