@@ -10,23 +10,24 @@ const StyledUserWrapperEventList = styled.div`
 `
 
 const StyledUserEventList = styled.div`
+  position: absolute;
   display: grid;
-  padding: 20px;
-  padding-right: 5px;
+  padding: 0 20px 5px 20px;
   box-sizing: border-box;
   border-collapse: collapse;
+  height: calc(100% - 100px);
   grid-template-columns: 1fr 1fr;
-  grid-auto-rows: 205px;
+  grid-auto-rows: 200px;
   overflow-y: auto;
   overflow-x: hidden;
   gap: 20px;
-  
+
   &::-webkit-scrollbar {
     width: 6px;
     border-radius: 4px;
     background-color: #dedede;
   }
-  
+
   &::-webkit-scrollbar-thumb {
     background-color: #2185fb;
     border-radius: 9em;
@@ -35,7 +36,6 @@ const StyledUserEventList = styled.div`
 
 const UserEventsList = ({ users, events, togoEvents, likedEvents, changeStatusTogoEvent, changeIsLikedStatus }) => {
   return (
-    <StyledUserWrapperEventList>
       <StyledUserEventList>
           {events.map(eventData => 
             <EventItem 
@@ -50,7 +50,6 @@ const UserEventsList = ({ users, events, togoEvents, likedEvents, changeStatusTo
             )
           }
       </StyledUserEventList>
-    </StyledUserWrapperEventList>
   )
 }
 

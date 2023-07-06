@@ -10,6 +10,7 @@ const MainBlock = styled.div`
     width: 520px;
     align-items: center;
     padding-left: 20px;
+    grid-area: usercard;
 `
 const Avatar = styled.img`
     display: block;

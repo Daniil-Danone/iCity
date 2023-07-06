@@ -4,6 +4,7 @@ import pencil from '../images/pencil.jpg'
 
 
 const Container = styled.div`
+    grid-area: info;
     width:535px;
     height:510px;
     max-height:510px;
@@ -11,14 +12,6 @@ const Container = styled.div`
     display:flex;
     flex-direction:column;
     border-radius:20px;
-    overflow-y:auto;
-    &::-webkit-scrollbar {
-        width: 10px; /* ширина для вертикального скролла */
-        height: 8px; /* высота для горизонтального скролла */
-        background-color: gray;
-        border-radius:10px;
-    }
-    margin-top:30px;
     float:top;
 `
 

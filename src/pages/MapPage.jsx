@@ -58,11 +58,13 @@ const MapPage = () => {
   }
 
   async function onClickMark(mark) {
-    setCurrentMark(null); 
-    setIsEditingMark(false);
-
-    setCurrentMark(mark)
+    console.log(mark);
+    console.log(currentMark);
+    setCurrentMark(null)
     setIsEditingMark(true);
+    setTimeout(() => {
+        setCurrentMark(mark)
+      }, 10);
   }
 
   useEffect(() => {
@@ -74,7 +76,7 @@ const MapPage = () => {
       setPopupText(null);
       setInfoPopupActive(false)
     }
-  }, [isEditingDone, popupText, isLogin, user, currentMark])
+  }, [isEditingDone, popupText, isLogin, user])
 
   return (
     <Wrapper>

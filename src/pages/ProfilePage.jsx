@@ -11,7 +11,9 @@ import { useEvents } from '../hooks/useEvents'
 
 const StyledWrapper = styled.div`
   font-family: Montserrat, sans-serif;
-  padding: 0 200px;
+  height: 100%;
+  width: 100%;
+  position: relative;
 `
 
 const StyledWrapperEventList = styled.div`
@@ -33,7 +35,7 @@ const Logo = styled.a`
 `
 
 const Settings = styled.button`
-  position:absolute;
+  position: absolute;
   top:7px;
   right:7px;
   border-radius: 30px;
@@ -41,19 +43,28 @@ const Settings = styled.button`
   padding:10px;
 `
 
-const ProfileContainer = styled.div`
-  margin: 40px 120px 40px 120px;
-  display:flex;
-
+const ProfilePageGrid = styled.div`
+  width: 100%;
+  height: calc(100% - 100px);
+  position: relative;
+  display: grid;
+  padding: 50px 300px;
+  gap: 40px;
+  box-sizing: border-box;
+  grid-template-columns: 540px auto;
+  grid-template-areas: 
+      "usercard events"
+      "info events"
+      "info events"
 `
 
 const ProfileMeets = styled.div`
-  display:flex;
   width: 100%;
-  flex-direction:column;
+  height: 100%;
+  position: absolute;
+  grid-area: events;
   border: 2px gray solid;
   border-radius:20px;
-  margin-left: 40px;
 `
 
 const ProfileMeetsTitle = styled.h2`
@@ -72,10 +83,6 @@ const MeetsContainer = styled.div`
   width: 100%;
   display: grid;
   
-`
-
-const LeftBlock = styled.div`
-
 `
 
 const ProfilePage = () => {
@@ -183,27 +190,25 @@ const ProfilePage = () => {
       <MenuBlock></MenuBlock>
       <Settings>Settings</Settings>
       <StyledWrapper>
-        <ProfileContainer>
-          <LeftBlock>
-            <BusinessCard user={user}/>
-            <ProfileInfoUser/>
-          </LeftBlock>
+        <ProfilePageGrid>
+          <BusinessCard user={user}/>
+          <ProfileInfoUser/>
           <ProfileMeets>
+            <MeetsContainer>
             <ProfileMeetsTitle>Встречи пользователя</ProfileMeetsTitle>
-              <MeetsContainer>
-                  <StyledWrapperEventList>
-                      <UserEventsList 
-                        users={users}
-                        likedEvents={likedEvents} 
-                        togoEvents={togoEvents}
-                        changeIsLikedStatus={changeIsLikedStatus}
-                        changeStatusTogoEvent={changeStatusTogoEvent} 
-                        events={visibleEvents}
-                      />
-                  </StyledWrapperEventList>
-              </MeetsContainer>
+                <StyledWrapperEventList>
+                    <UserEventsList 
+                      users={users}
+                      likedEvents={likedEvents} 
+                      togoEvents={togoEvents}
+                      changeIsLikedStatus={changeIsLikedStatus}
+                      changeStatusTogoEvent={changeStatusTogoEvent} 
+                      events={visibleEvents}
+                    />
+                </StyledWrapperEventList>
+            </MeetsContainer>
           </ProfileMeets>
-        </ProfileContainer>
+        </ProfilePageGrid>
       </StyledWrapper>
     </Wrapper>
   )
