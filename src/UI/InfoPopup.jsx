@@ -5,11 +5,12 @@ const StyledInfoPopup = styled.div`
   display: block;
   width: auto;
   left: 50%;
-  top: 10px;
+  bottom: 10px;
   padding: 10px;
   border-radius: 5px;
-  border: 1px solid black;
-  background-color: white;
+  border: 2px #2185fb solid;
+  background: #f0f5fa;
+  box-shadow: 1px 1px 2px;
   position: absolute;
   text-align: center;
   z-index: 1;

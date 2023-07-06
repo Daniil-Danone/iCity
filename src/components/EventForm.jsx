@@ -17,7 +17,7 @@ import { useEvents } from '../hooks/useEvents';
 
 
 
-const EventForm = ({ setIsFormActive, popupTitle }) => {
+const EventForm = ({ setIsEditingDone, setIsFormActive, popupTitle }) => {
     const user = JSON.parse(localStorage.getItem("user"))
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
@@ -71,6 +71,7 @@ const EventForm = ({ setIsFormActive, popupTitle }) => {
         const response = await addEvent(eventData)
         if (response) {
             setIsFormActive(false);
+            setIsEditingDone(true);
         }
     };
 

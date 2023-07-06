@@ -17,7 +17,7 @@ const StyledEventList = styled.div`
   border-collapse: collapse;
   height: 100%;
   grid-template-columns: 1fr 1fr 1fr 1fr;
-  grid-template-rows: 200px;
+  grid-auto-rows: 200px;
   overflow-y: auto;
   overflow-x: hidden;
   gap: 20px;

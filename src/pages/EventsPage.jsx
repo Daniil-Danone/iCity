@@ -7,6 +7,7 @@ import ProfileBlock from '../components/ProfileBlock';
 import EventBar from '../components/EventBar';
 import { useEvents } from '../hooks/useEvents';
 import { useUser } from '../hooks/useUser';
+import InfoPopup from '../UI/InfoPopup';
 
 
 
@@ -21,14 +22,19 @@ const EventsPage = () => {
   const [isLogin, setIsLogin] = useState(localStorage.getItem("isLogin"));
   const token = localStorage.getItem("token");
 
-  const [isChecked, setIsChecked] = useState(false);
+  const [isEditingDone, setIsEditingDone] = useState(false);
+
+  const [isChecked, setIsChecked] = useState(false); // отмечены ли "понравившиеся"
+
+  const [infoPopupMsg, setInfoPopupMsg] = useState(null); // сообщение в попапе
+  const [isActive, setIsActive] = useState(false); // открыт ли попап
 
   const [allEvents, setAllEvents] = useState([]) // все мероприятия
   const [togoEvents, setTogoEvents] = useState([]); // ID мероприятий на которые идёт пользователь
   const [likedEvents, setLikedEvents] = useState([]); // ID понравившихся пользователю мероприятий
-  const [selectedEvents, setSelectedEvents] = useState([]);
   const [visibleEvents, setVisibleEvents] = useState([]); // отображаемые на странице мероприятия
 
+  // выбор типа мероприятия
   const [currentTypes, setCurrentTypes] = useState({
     'football': false,
     'basketball': false,
@@ -59,23 +65,31 @@ const EventsPage = () => {
   }
 
   async function changeStatusTogoEvent(type, eventId) {
-    if (type === 'add') {
-      togoEvents.push(JSON.stringify(eventId))
-      const data = {
-        togo_events: togoEvents.join(' ')
-      }
-      await updateTogoEvents(token, data);
-    } else {
-      if (type === 'delete') {
-        let filteredTogoEvents = togoEvents.filter(item => item != JSON.stringify(eventId));
+    if (isLogin) {
+      if (type === 'add') {
+        togoEvents.push(JSON.stringify(eventId))
         const data = {
-          togo_events: filteredTogoEvents.join(' ')
+          togo_events: togoEvents.join(' ')
         }
         await updateTogoEvents(token, data);
+      } else {
+        if (type === 'delete') {
+          let filteredTogoEvents = togoEvents.filter(item => item != JSON.stringify(eventId));
+          const data = {
+            togo_events: filteredTogoEvents.join(' ')
+          }
+          await updateTogoEvents(token, data);
+        }
       }
+      
+      loadUserEvents();
+    } else {
+      setInfoPopupMsg('Чтобы записаться на мероприятие нужно войти в систему');
+      setIsActive(true);
+      setTimeout(() => {
+        setIsActive(false);
+      }, 2000);
     }
-    
-    loadUserEvents();
   }
 
   async function changeIsLikedStatus(type, eventId) {
@@ -101,7 +115,6 @@ const EventsPage = () => {
   function selectEvents(eventList) {
     if (currentTypes.football === false && currentTypes.basketball === false 
       && currentTypes.bike === false && currentTypes.gamepad === false) {
-        console.log('1');
         setVisibleEvents(eventList);
     } else {
       let sortedEvents = eventList.filter(event => {
@@ -152,20 +165,23 @@ const EventsPage = () => {
 
   useEffect(() => {
     loadUserEvents();
-    if (allEvents.length === 0) {
+    if (allEvents.length === 0 || isEditingDone) {
+      setIsEditingDone(false);
       loadEvents();
     }
     if (isFormActive === false) {
       selectLiked();
     }
-  }, [user, isLogin, isFormActive, currentTypes, isChecked])
+  }, [user, isLogin, isActive, isEditingDone, isFormActive, currentTypes, isChecked])
   
   return (
     <Wrapper>
+      <InfoPopup active={isActive}>{infoPopupMsg}</InfoPopup>
       <ProfileBlock user={user} setUser={setUser} isLogin={isLogin} setIsLogin={setIsLogin}/>
       <MenuBlock/>
       <EventsPageGrig>
         <EventBar 
+        setIsEditingDone={setIsEditingDone}
         selectLiked={selectLiked}
         isChecked={isChecked}
         setIsChecked={setIsChecked}

@@ -125,6 +125,7 @@ const EventImage = styled.img`
 `
 
 const EventItem = ({ eventData, togoEvents, likedEvents, changeStatusTogoEvent, changeIsLikedStatus }) => {
+  const isLogin = localStorage.getItem("isLogin")
   const amIGoing = togoEvents.indexOf(JSON.stringify(eventData.id)) != -1;
   const isLiked = likedEvents.indexOf(JSON.stringify(eventData.id)) != -1;
   
@@ -179,7 +180,7 @@ const EventItem = ({ eventData, togoEvents, likedEvents, changeStatusTogoEvent, 
     <Container>
         <EventTitle>{eventData.title}</EventTitle>
         <EventLiked>
-          {isLiked ? <EventImage onClick={() => changeIsLikedStatus('delete', eventData.id)} src={heartFilled}/> : <EventImage onClick={() => changeIsLikedStatus('add', eventData.id)} src={heartBordered}/>} 
+          {isLiked ? isLogin && <EventImage onClick={() => changeIsLikedStatus('delete', eventData.id)} src={heartFilled}/> : isLogin && <EventImage onClick={() => changeIsLikedStatus('add', eventData.id)} src={heartBordered}/>} 
         </EventLiked>
         <DescriprionContainer>
             <EventBox>
@@ -208,8 +209,8 @@ const EventItem = ({ eventData, togoEvents, likedEvents, changeStatusTogoEvent, 
               </EventItemBlock>
             </EventBox>
         </DescriprionContainer>
-        {amIGoing && <Status>Уже иду</Status>}
-        {amIGoing ? <EventDelete onClick={() => changeStatusTogoEvent('delete', eventData.id)}>Отменить участие</EventDelete> : <EventButton onClick={() => changeStatusTogoEvent('add', eventData.id)}>Я пойду</EventButton>}
+        {amIGoing && isLogin && <Status>Уже иду</Status>}
+        {amIGoing ? isLogin && <EventDelete onClick={() => changeStatusTogoEvent('delete', eventData.id)}>Отменить участие</EventDelete> : <EventButton onClick={() => changeStatusTogoEvent('add', eventData.id)}>Я пойду</EventButton>}
     </Container>
   )
 }
